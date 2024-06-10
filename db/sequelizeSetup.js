@@ -1,5 +1,7 @@
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
+const UserModel = require('../models/userModel');
+const mockUsers = require('./users');
 
 const env = process.env.NODE_ENV;
 const config = require('../configs/db-config.json')[env];
@@ -10,6 +12,27 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     logging: false,
     port: config.port
 });
+
+const User = UserModel(sequelize);
+
+const resetDb = process.env.NODE_ENV === "development"
+
+sequelize.sync({ force: resetDb })
+    .then(() => {
+
+        mockUsers.forEach(async user => {
+            const hash = await bcrypt.hash(user.password, 10)
+            user.password = hash
+            User.create(user)
+                .then()
+                .catch(error => {
+                    console.log(error)
+                })
+        })
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 
 
 
