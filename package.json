@@ -1,0 +1,28 @@
+{
+  "name": "shogi-api",
+  "version": "1.0.0",
+  "description": "an API Rest to handle Shogi app data",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "dev": "cross-env NODE_ENV=development npx nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jlisita/SHOGI-API.git"
+  },
+  "author": "Julien Lisita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlisita/SHOGI-API/issues"
+  },
+  "homepage": "https://github.com/jlisita/SHOGI-API#readme",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.3"
+  }
+}
