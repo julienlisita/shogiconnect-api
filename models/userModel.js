@@ -5,11 +5,6 @@ module.exports = (sequelize) => {
   return sequelize.define(
 
     'User', {
-              id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true
-              },
               pseudo: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -42,13 +37,12 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: true
               },
-              creationDate: {
-                type: DataTypes.DATE,
-                defaultValue: DataTypes.NOW
-              }
+
             }, {
               timestamps: false,
-              tableName: 'users'
+              tableName: 'users',
+              createdAt: 'created',
+              updatedAt: true
             },
           );
   }

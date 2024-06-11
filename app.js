@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 const port = 3000;
@@ -20,5 +22,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users', userRouter)
+
+const swagger = require('./configs/swagger');
+swagger(app);
 
 app.listen(port, () => console.log(`app listening on port: ${port}`))
