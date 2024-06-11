@@ -1,5 +1,6 @@
-const { User } = require("../db/sequelizeSetup")
-const { errorHandler } = require("../errorHandler/errorHandler")
+const { User } = require("../db/sequelizeSetup");
+const bcrypt = require('bcrypt');
+const { errorHandler } = require("../errorHandler/errorHandler");
 
 const findAllUsers = async (req, res) => {
     try {
@@ -10,4 +11,88 @@ const findAllUsers = async (req, res) => {
     }
 }
 
-module.exports = { findAllUsers }
+const findUserByPk = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.params.id)
+        if (!result) {
+            return res.json({ message: 'Utilisateur non trouvé' })
+        }
+        res.json({ data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+const createUser = async (req, res) => {
+    try {
+        const hashPassword = await bcrypt.hash(req.body.password, 5)
+        req.body.password = hashPassword
+
+        const result = await User.create(req.body)
+
+        res.json({ message: `Utilisateur créé`, data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: `L'utilisateur n'existe pas` })
+        }
+        if (req.body.password) {
+            const hash = await bcrypt.hash(req.body.password, 8)
+            req.body.password = hash
+        }
+
+        await result.update(req.body)
+
+        res.status(201).json({ message: 'Utilisateur modifié', data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: `L'utilisateur n'existe pas` })
+        }
+
+        await result.destroy()
+        res.status(200).json({ message: 'Utilisateur supprimé', data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+const updateProfile = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.user.id);
+        if (req.body.password) {
+            const hash = await bcrypt.hash(req.body.password, 8)
+            req.body.password = hash
+        }
+
+        await result.update(req.body)
+
+        res.status(201).json({ message: 'Utilisateur modifié', data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+const deleteProfile = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.user.id);
+        await result.destroy()
+        res.clearCookie('access_token').status(200).json({ message: 'Utilisateur supprimé', data: result })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+}
+
+module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile};

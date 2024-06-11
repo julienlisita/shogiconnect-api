@@ -6,7 +6,7 @@
  *       type: object
  *       required:
  *         - pseudo
- *         - email
+ *         - password
  *       properties:
  *         id:
  *           type: integer
@@ -54,27 +54,181 @@
  */
 
 const express = require('express')
-const { findAllUsers } = require('../controllers/userController')
+const { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
 const router = express.Router()
 
 router
     .route('/')
     /**
     * @openapi
-    * /api/shogi:
+    * /api/users:
     *   get:
     *     summary: Get all users
     *     tags: [Users]
     *     responses:
-    *       3:
+    *       200:
     *         description: The list of users.
     *         content:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Shogi'
+    *               $ref: '#/components/schemas/User'
     *       500:
     *         description: Some server error 
     */
     .get(findAllUsers)
+
+    router
+    .route('/signup')
+    /**
+    * @openapi
+    * /api/users/signup:
+    *   post:
+    *     summary: Create a new user
+    *     tags: [Users]
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             $ref: '#/components/schemas/User'
+    *     responses:
+    *       200:
+    *         description: The created user.
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/User'
+    *       500:
+    *         description: Some server error 
+    */
+    .post(createUser)
+
+router
+    .route('/profile/')
+    /**
+    * @openapi
+    * /api/users/:
+    *   put:
+    *    summary: The user can update his profile, by the id given in a jsonwebtoken
+    *    tags: [Users]
+    *    requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *          schema:
+    *            $ref: '#/components/schemas/user'
+    *    responses:
+    *      200:
+    *        description: The user was updated
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/User'
+    *      404:
+    *        description: The user was not found
+    *      500:
+    *        description: Some error happened
+    */
+    .put(updateProfile)
+    /**
+    * @openapi
+    * /api/users/:
+    *   delete:
+    *    summary: The user can delete his profile, by the id given in a jsonwebtoken
+    *    tags: [Users]
+    *    requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *          schema:
+    *            $ref: '#/components/schemas/user'
+    *    responses:
+    *      200:
+    *        description: The user was deleted
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/User'
+    *      404:
+    *        description: The user was not found
+    *      500:
+    *        description: Some error happened
+    */
+    .delete(deleteProfile)
+
+router
+    .route('/:id')
+    /**
+    * @openapi
+    * /api/users/{id}:
+    *   get:
+    *     summary: Get the user by id
+    *     tags: [Users]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: string
+    *         required: true
+    *         description: The user id
+    *     responses:
+    *       200:
+    *         description: The user response by id
+    *         contents:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/User'
+    *       404:
+    *         description: The user was not found
+    */
+    .get(findUserByPk)
+    /**
+    * @openapi
+    * /api/users/{id}:
+    *   put:
+    *     summary: Update the user by id, restricted to admin
+    *     tags: [Users]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: string
+    *         required: true
+    *         description: The user id
+    *     responses:
+    *       200:
+    *         description: User updated
+    *         contents:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/User'
+    *       404:
+    *         description: The user was not found
+    */
+    .put(updateUser)
+    /**
+    * @openapi
+    * /api/users/{id}:
+    *   delete:
+    *     summary: Delete the user by id, restricted to admin
+    *     tags: [Users]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: string
+    *         required: true
+    *         description: The user id
+    *     responses:
+    *       200:
+    *         description: User deleted
+    *         contents:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/User'
+    *       404:
+    *         description: The user was not found
+    */
+    .delete(deleteUser)
 
 module.exports = router
