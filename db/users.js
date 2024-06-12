@@ -8,7 +8,7 @@ const users = [
         biography: "Hello, je suis Paul",
         ratio: 12,
         avatar: "efrrzdd",
-        creationDate: new Date()
+        RoleId: 1
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const users = [
         biography: "Hello, je suis Julien",
         ratio: 10,
         avatar: "egdezagde",
-        creationDate: new Date()
+        RoleId: 2
     },
     {
         id: 3,
@@ -30,7 +30,7 @@ const users = [
         biography: "Hello, je suis Fab",
         ratio: 6,
         avatar: "gdedeg",
-        creationDate: new Date()
+        RoleId: 3
     }
 ];
 

@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const UserModel = require('../models/userModel');
 const mockUsers = require('./users');
+const RoleModel = require('../models/roleModel');
 
 const env = process.env.NODE_ENV;
 const config = require('../configs/db-config.json')[env];
@@ -14,11 +15,25 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 });
 
 const User = UserModel(sequelize);
+const Role = RoleModel(sequelize);
+
+// relations
+
+Role.hasMany(User, {
+    foreignKey: {
+        defaultValue: 3,
+    },
+});
+User.belongsTo(Role);
 
 const resetDb = process.env.NODE_ENV === "development"
 
 sequelize.sync({ force: resetDb })
     .then(() => {
+
+        Role.create({ id: 1, label: "superadmin" })
+        Role.create({ id: 2, label: "admin" })
+        Role.create({ id: 3, label: "user" })
 
         mockUsers.forEach(async user => {
             const hash = await bcrypt.hash(user.password, 10)
@@ -40,4 +55,4 @@ sequelize.authenticate()
 
 
 
-module.exports = { sequelize ,User}
+module.exports = { sequelize ,User, Role}
