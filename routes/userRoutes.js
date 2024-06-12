@@ -56,7 +56,7 @@
 const express = require('express')
 const { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
 const { login, logout } = require('../controllers/authController')
-const { protect } = require('../middlewares/auth')
+const { protect, restrictTo } = require('../middlewares/auth')
 const router = express.Router()
 
 router
@@ -207,7 +207,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .put(protect, updateUser)
+    .put(protect, restrictTo('admin'), updateUser)
     /**
     * @openapi
     * /api/users/{id}:
@@ -231,7 +231,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .delete(protect, deleteUser)
+    .delete(protect, restrictTo('superadmin'), deleteUser)
 
     router
     .route('/login')
