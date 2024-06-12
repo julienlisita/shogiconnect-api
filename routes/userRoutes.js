@@ -77,7 +77,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .get(findAllUsers)
+    .get(protect, findAllUsers)
 
     router
     .route('/signup')
@@ -131,7 +131,7 @@ router
     *      500:
     *        description: Some error happened
     */
-    .put(updateProfile)
+    .put(protect, updateProfile)
     /**
     * @openapi
     * /api/users/:
@@ -156,7 +156,7 @@ router
     *      500:
     *        description: Some error happened
     */
-    .delete(deleteProfile)
+    .delete(protect, deleteProfile)
 
 router
     .route('/:id')
@@ -183,7 +183,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .get(findUserByPk)
+    .get(protect, findUserByPk)
     /**
     * @openapi
     * /api/users/{id}:
@@ -207,7 +207,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .put(updateUser)
+    .put(protect, updateUser)
     /**
     * @openapi
     * /api/users/{id}:
@@ -231,7 +231,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .delete(deleteUser)
+    .delete(protect, deleteUser)
 
     router
     .route('/login')

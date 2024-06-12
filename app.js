@@ -1,6 +1,5 @@
 const express = require('express');
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 3000;
@@ -8,7 +7,8 @@ const port = 3000;
 require("./db/sequelizeSetup");
 
 app
-    .use(express.json());
+    .use(express.json())
+    .use(cookieParser())
 
 if (process.env.NODE_ENV === "development") {
     const morgan = require('morgan')
