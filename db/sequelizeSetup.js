@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt');
 
 const UserModel = require('../models/userModel');
 const RoleModel = require('../models/roleModel');
+const CategoryModel = require('../models/categoryModel');
 
 const mockUsers = require('./users');
+const mockCategories = require('./categories');
 
 const env = process.env.NODE_ENV;
 const config = require('../configs/db-config.json')[env];
@@ -19,6 +21,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 const models = {
     User : UserModel(sequelize),
     Role : RoleModel(sequelize),
+    Category : CategoryModel(sequelize),
 };
 
 // Setup associations
@@ -36,6 +39,14 @@ sequelize.sync({ force: resetDb })
         models.Role.create({ id: 1, label: "superadmin" })
         models.Role.create({ id: 2, label: "admin" })
         models.Role.create({ id: 3, label: "user" })
+
+        mockCategories.forEach(async category => {
+            models.Category.create(category)
+                .then()
+                .catch(error => {
+                    console.log(error)
+                })
+        })
 
         mockUsers.forEach(async user => {
             const hash = await bcrypt.hash(user.password, 10)
