@@ -1,17 +1,15 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    const Category = sequelize.define(
-        'Category',
+    const Post = sequelize.define(
+        'Post',
         {
             // Model attributes are defined here
-            title: {
+            Author: {
                 type: DataTypes.STRING,
-                allowNull: false,
             },
-            description: {
+            content: {
                 type: DataTypes.TEXT,
-                allowNull: true,
             },
         },
         {
@@ -19,8 +17,9 @@ module.exports = (sequelize) => {
             createdAt: false,
         },
     );
-    Category.associate = (models) => {
-        Category.hasMany(models.Topic, { foreignKey: { allowNull: false, defaultValue: 3 } });
+    Post.associate = (models) => {
+        Post.belongsTo(models.User, { foreignKey: { allowNull: false } });
+        Post.belongsTo(models.Topic, { foreignKey: { allowNull: false } });     
     };
-    return Category;
+    return Post;
 }

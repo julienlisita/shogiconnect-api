@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const UserModel = require('../models/userModel');
 const RoleModel = require('../models/roleModel');
 const CategoryModel = require('../models/categoryModel');
+const TopicModel = require('../models/topicModel');
+const PostModel = require('../models/postModel');
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
@@ -22,6 +24,8 @@ const models = {
     User : UserModel(sequelize),
     Role : RoleModel(sequelize),
     Category : CategoryModel(sequelize),
+    Topic : TopicModel(sequelize),
+    Post : PostModel(sequelize),
 };
 
 // Setup associations
