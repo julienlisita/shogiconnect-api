@@ -65,6 +65,26 @@ module.exports = (sequelize) => {
 
             }, {
 
+              onDelete: 'CASCADE',
+              
+              defaultScope: {
+                attributes: { exclude: ['password'] }
+              },
+              scopes: {
+                  withPassword: {
+                      attributes: {}
+                  }
+              },
+              // delete password from the returned data after creating or updating a record
+              hooks: {
+                afterCreate: (record) => {
+                    delete record.dataValues.password;
+                },
+                afterUpdate: (record) => {
+                    delete record.dataValues.password;
+                },
+            }
+
             },
           );
   }

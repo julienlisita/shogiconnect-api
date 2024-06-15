@@ -13,7 +13,7 @@ const findAllUsers = async (req, res) => {
 
 const findUserByPk = async (req, res) => {
     try {
-        const result = await User.findByPk(req.params.id)
+        const result = await User.findByPk(req.params.id,{ include: Role })
         if (!result) {
             return res.json({ message: 'Utilisateur non trouvé' })
         }
@@ -27,6 +27,10 @@ const createUser = async (req, res) => {
     try {
         const hashPassword = await bcrypt.hash(req.body.password, 5)
         req.body.password = hashPassword
+
+        if (req.body.RoleId) {
+            return res.status(403).json({ message: 'Droit non modifiable' })
+        }
 
         const result = await User.create(req.body)
 
@@ -45,6 +49,10 @@ const updateUser = async (req, res) => {
         if (req.body.password) {
             const hash = await bcrypt.hash(req.body.password, 8)
             req.body.password = hash
+        }
+
+        if (req.body.RoleId) {
+            if (result.RoleId < req.user.RoleId || req.body.RoleId < req.user.RoleId) return res.status(403).json({ message: "Droits insuffisants pour mise à jour" })
         }
 
         await result.update(req.body)
@@ -75,6 +83,10 @@ const updateProfile = async (req, res) => {
         if (req.body.password) {
             const hash = await bcrypt.hash(req.body.password, 8)
             req.body.password = hash
+        }
+
+        if (req.body.RoleId) {
+            return res.status(403).json({ message: 'Droit non modifiable' })
         }
 
         await result.update(req.body)
