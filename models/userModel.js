@@ -2,8 +2,7 @@ const { DataTypes } = require('sequelize');
 
 
 module.exports = (sequelize) => {
-  return sequelize.define(
-
+  const User = sequelize.define(
     'User', {
               pseudo: {
                 type: DataTypes.STRING,
@@ -87,4 +86,12 @@ module.exports = (sequelize) => {
 
             },
           );
+
+          // Define associations
+          User.associate = (models) => 
+          {
+            User.belongsTo(models.Role, { foreignKey: { allowNull: false } });
+          };
+
+          return User;
   }

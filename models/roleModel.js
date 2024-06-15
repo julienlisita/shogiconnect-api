@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    return sequelize.define(
+    const Role = sequelize.define(
         'Role',
         {
             // Model attributes are defined here
@@ -14,4 +14,8 @@ module.exports = (sequelize) => {
             createdAt: false,
         },
     );
+    Role.associate = (models) => {
+        Role.hasMany(models.User, { foreignKey: { allowNull: false, defaultValue: 3 } });
+    };
+    return Role;
 }
