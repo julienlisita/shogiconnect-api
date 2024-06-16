@@ -24,7 +24,7 @@
  */
 
 const express = require('express');
-const { findAllCategories } = require('../controllers/categoryController')
+const { findAllCategories, findCategoryByPk, findCategoryTopics } = require('../controllers/categoryController')
 const router = express.Router();
 
 router
@@ -47,5 +47,35 @@ router
     */
     .get(findAllCategories)
 
+ router   
+    .route('/:id')
+    /**
+    * @openapi
+    * /api/categories/{id}:
+    *   get:
+    *     summary: Get the categorie by id
+    *     tags: [Categories]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: string
+    *         required: true
+    *         description: The categorie id
+    *     responses:
+    *       200:
+    *         description: The categorie response by id
+    *         contents:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/Category'
+    *       404:
+    *         description: The categorie was not found
+    */
+    .get(findCategoryByPk)
+
+router
+    .route('/:id/topics')
+    .get(findCategoryTopics)
 
 module.exports = router
