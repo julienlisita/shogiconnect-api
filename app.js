@@ -15,13 +15,15 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan('dev'))
 }
 
-const userRouter = require('./routes/userRoutes')
+const userRouter = require('./routes/userRoutes');
+const categoryRouter = require('./routes/categoryRoutes');
 
 app.get('/', (req, res) => {
     res.json({ message: 'Homepage' })
 })
 
-app.use('/api/users', userRouter)
+app.use('/api/users', userRouter);
+app.use('/api/categories', categoryRouter);
 
 const swagger = require('./configs/swagger');
 swagger(app);
