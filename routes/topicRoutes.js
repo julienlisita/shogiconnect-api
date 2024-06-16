@@ -36,7 +36,7 @@
  */
 
 const express = require('express');
-const { findAllTopics, findTopicByPk, createTopic, updateTopic, deleteTopic } = require('../controllers/topicController')
+const { findAllTopics, findTopicByPk, findTopicPosts, createTopic, updateTopic, deleteTopic } = require('../controllers/topicController')
 const router = express.Router();
 
 router
@@ -157,5 +157,9 @@ router
      *         description: The topic was not found
      */
      .delete(deleteTopic)
+
+router
+    .route('/:id/posts')
+    .get(findTopicPosts)
 
 module.exports = router
