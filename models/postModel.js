@@ -13,8 +13,8 @@ module.exports = (sequelize) => {
             },
         },
         {
-            updatedAt: false,
-            createdAt: false,
+            updatedAt: true,
+            createdAt: true,
         },
     );
     Post.associate = (models) => {

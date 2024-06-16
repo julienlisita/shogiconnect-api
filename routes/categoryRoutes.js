@@ -8,21 +8,13 @@
  *       properties:
  *         id:
  *           type: integer
- *           description: The id of the user, auto-generated
+ *           description: The id of the category, auto-generated
  *         title:
  *           type: string
  *           description: The title of the category
  *         description:
  *           type: text
  *           description: The description of the category
- *         createdAt:
- *           type: string
- *           format: date
- *           description: The date the user was added, auto-generated
- *         updatedAt:
- *           type: string
- *           format: date
- *           description: The date the user was updated, auto-generated
  *       example:
  *         id: 1
  *         title: Stratégies et Tactiques
