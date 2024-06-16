@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
         'Post',
         {
             // Model attributes are defined here
-            Author: {
+            author: {
                 type: DataTypes.STRING,
             },
             content: {

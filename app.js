@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === "development") {
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const topicRouter = require('./routes/topicRoutes');
+const postRouter = require('./routes/postRoutes');
 
 app.get('/', (req, res) => {
     res.json({ message: 'Homepage' })
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/topics', topicRouter);
+app.use('/api/posts', postRouter);
 
 const swagger = require('./configs/swagger');
 swagger(app);

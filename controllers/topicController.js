@@ -16,9 +16,9 @@ const findAllTopics = async (req, res) => {
 const findTopicByPk = async (req, res) => {
     try 
     {
-        const result = await User.findByPk(req.params.id, { include: Role })
+        const result = await Topic.findByPk(req.params.id, { include: Role })
         if (!result) {
-            return res.json({ message: 'Utilisateur non trouvé' })
+            return res.json({ message: 'Topic non trouvé' })
         }
         res.json({ data: result })
     } 
