@@ -6,7 +6,7 @@ const { errorHandler } = require("../errorHandler/errorHandler");
 
 const login = async (req, res) => {
     try {
-        const result = await User.scope('withPassword').findOne({ where: { pseudo: req.body.pseudo } })
+        const result = await User.scope('withPassword').findOne({ where: { username: req.body.username } })
         if (result === null) {
             return res.status(404).json({ message: `Invalid Credentials` })
         }

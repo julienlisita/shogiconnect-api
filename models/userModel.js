@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   const User = sequelize.define(
     'User', {
-              pseudo: {
+                username: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
@@ -44,19 +44,6 @@ module.exports = (sequelize) => {
  
                 },
               },
-              ratio: {
-                type: DataTypes.FLOAT,
-                allowNull: true,
-                validate: {
-                  isFloat: {
-                    msg: "La note doit être un nombre décimal.",
-                    },
-                  min: {
-                      msg: "La note ne peut pas être inférieure à 0.",
-                      args: [0]
-                    },
-                 },
-             },
               avatar: {
                 type: DataTypes.STRING,
                 allowNull: true

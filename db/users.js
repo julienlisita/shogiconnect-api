@@ -1,34 +1,31 @@
 const users = [
     {
         id: 1,
-        pseudo: "pauldoazan",
+        username: "pauldoazan",
         email: "paul.doazan@example.com",
         password: "mdpe1234",
         country: "France",
         biography: "Hello, je suis Paul",
-        ratio: 12,
         avatar: "efrrzdd",
         RoleId: 1
     },
     {
         id: 2,
-        pseudo: "jlisita",
+        username: "jlisita",
         email: "julien.lisita@example.com",
-        password: "1234coicoin",
+        password: "1234cococo",
         country: "France",
         biography: "Hello, je suis Julien",
-        ratio: 10,
         avatar: "egdezagde",
         RoleId: 2
     },
     {
         id: 3,
-        pseudo: "fberthillot",
+        username: "fberthillot",
         email: "fabien.berthillot@example.com",
         password: "hahahihihi",
         country: "Allemagne",
         biography: "Hello, je suis Fab",
-        ratio: 6,
         avatar: "gdedeg",
         RoleId: 3
     }
