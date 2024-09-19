@@ -36,7 +36,7 @@
  */
 
 const express = require('express');
-const { findAllTopics, findTopicByPk, findTopicPosts, createTopic, updateTopic, deleteTopic } = require('../controllers/topicController')
+const { findAllTopics, findTopicByPk, findTopicComments, createTopic, updateTopic, deleteTopic } = require('../controllers/topicController')
 const router = express.Router();
 
 router
@@ -61,7 +61,7 @@ router
     /**
     * @openapi
     * /api/topics:
-    *   post:
+    *   Comment:
     *     summary: Create a new topic
     *     tags: [Topic]
     *     requestBody:
@@ -159,7 +159,7 @@ router
      .delete(deleteTopic)
 
 router
-    .route('/:id/posts')
-    .get(findTopicPosts)
+    .route('/:id/comments')
+    .get(findTopicComments)
 
 module.exports = router

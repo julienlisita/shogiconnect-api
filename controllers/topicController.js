@@ -1,4 +1,4 @@
-const { Topic, Category, Post, User } = require("../db/sequelizeSetup");
+const { Topic, Category, Comment, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 
 const findAllTopics = async (req, res) => {
@@ -28,19 +28,19 @@ const findTopicByPk = async (req, res) => {
     }
 }
 
-const findTopicPosts = async (req, res) => {
+const findTopicComments = async (req, res) => {
     try {
             const topicId = req.params.id;
             const topic = await Topic.findByPk(topicId, {
                 include: [{
-                model: Post,
+                model: Comment,
                 }],
             });
         
             if (!topic) {
                 return res.status(404).json({ error: 'Topic non trouvé' });
             }
-            res.json(topic.Posts);
+            res.json(topic.comments);
         } catch 
         (error) 
         {
@@ -105,4 +105,4 @@ const deleteTopic = async (req, res) => {
   };
 
   
-module.exports = { findAllTopics, findTopicByPk, createTopic, updateTopic, deleteTopic, findTopicPosts };
+module.exports = { findAllTopics, findTopicByPk, createTopic, updateTopic, deleteTopic, findTopicComments };

@@ -2,27 +2,27 @@
  * @swagger
  * components:
  *   schemas:
- *     Post:
+ *     Comment:
  *       type: object
  *       required:
  *       properties:
  *         id:
  *           type: integer
- *           description: The id of the post, auto-generated
+ *           description: The id of the comment, auto-generated
  *         author:
  *           type: string
- *           description: The author of the post
+ *           description: The author of the comment
  *         content:
  *           type: text
- *           description: The content of the post
+ *           description: The content of the comment
  *         createdAt:
  *           type: string
  *           format: date
- *           description: The date the post was added, auto-generated
+ *           description: The date the comment was added, auto-generated
  *         updatedAt:
  *           type: string
  *           format: date
- *           description: The date the post was updated, auto-generated
+ *           description: The date the comment was updated, auto-generated
  *       example:
  *         id: 1
  *         author: jlisita
@@ -32,126 +32,126 @@
  */
 
 const express = require('express');
-const { findAllPosts, findPostByPk, createPost, updatePost, deletePost } = require('../controllers/postController')
+const { findAllComments, findCommentByPk, createComment, updateComment, deleteComment } = require('../controllers/commentController')
 const router = express.Router();
 
 router
     .route('/')
     /**
     * @openapi
-    * /api/posts:
+    * /api/comments:
     *   get:
-    *     summary: Get all posts
-    *     tags: [Posts]
+    *     summary: Get all comments
+    *     tags: [Comments]
     *     responses:
     *       200:
-    *         description: The list of posts.
+    *         description: The list of comments.
     *         content:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Post'
+    *               $ref: '#/components/schemas/Comment'
     *       500:
     *         description: Some server error 
     */
-    .get(findAllPosts)
+    .get(findAllComments)
     /**
     * @openapi
-    * /api/posts:
+    * /api/comments:
     *   post:
-    *     summary: Create a new post
-    *     tags: [Post]
+    *     summary: Create a new comment
+    *     tags: [Comment]
     *     requestBody:
     *       required: true
     *       content:
     *         application/json:
     *           schema:
-    *             $ref: '#/components/schemas/Post'
+    *             $ref: '#/components/schemas/Comment'
     *     responses:
     *       200:
-    *         description: The created post.
+    *         description: The created comment.
     *         content:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Post'
+    *               $ref: '#/components/schemas/Comment'
     *       500:
     *         description: Some server error 
     */
-    .post(createPost)
+    .post(createComment)
 
 
 router
     .route('/:id')
     /**
     * @openapi
-    * /api/post/{id}:
+    * /api/comment/{id}:
     *   get:
-    *     summary: Get the post by id
-    *     tags: [Posts]
+    *     summary: Get the comment by id
+    *     tags: [Comment]
     *     parameters:
     *       - in: path
     *         name: id
     *         schema:
     *           type: string
     *         required: true
-    *         description: The post id
+    *         description: The comment id
     *     responses:
     *       200:
-    *         description: The post response by id
+    *         description: The comment response by id
     *         contents:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Post'
+    *               $ref: '#/components/schemas/Comment'
     *       404:
-    *         description: The post was not found
+    *         description: The comment was not found
     */
-    .get(findPostByPk)
+    .get(findCommentByPk)
      /**
     * @openapi
-    * /api/posts/{id}:
+    * /api/comments/{id}:
     *   put:
-    *     summary: Update the post by id, restricted to admin
-    *     tags: [Posts]
+    *     summary: Update the comment by id, restricted to admin
+    *     tags: [comments]
     *     parameters:
     *       - in: path
     *         name: id
     *         schema:
     *           type: string
     *         required: true
-    *         description: The Post id
+    *         description: The comment id
     *     responses:
     *       200:
-    *         description: Post updated
+    *         description: comment updated
     *         contents:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Post'
+    *               $ref: '#/components/schemas/Comment'
     *       404:
-    *         description: The post was not found
+    *         description: The comment was not found
     */
-     .put(updatePost)
+     .put(updateComment)
      /**
      * @openapi
-     * /api//posts/{id}:
+     * /api/comments/{id}:
      *   delete:
-     *     summary: Delete the post by id, restricted to admin
-     *     tags: [Posts]
+     *     summary: Delete the comment by id, restricted to admin
+     *     tags: [Comments]
      *     parameters:
      *       - in: path
      *         name: id
      *         schema:
      *           type: string
      *         required: true
-     *         description: The post id
+     *         description: The comment id
      *     responses:
      *       200:
-     *         description: Post deleted
+     *         description: comment deleted
      *         contents:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Post'
+     *               $ref: '#/components/schemas/Comment'
      *       404:
-     *         description: The post was not found
+     *         description: The Comment was not found
      */
-     .delete(deletePost)
+     .delete(deleteComment)
 
 module.exports = router
