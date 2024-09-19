@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
@@ -9,6 +10,7 @@ require("./db/sequelizeSetup");
 app
     .use(express.json())
     .use(cookieParser())
+    .use(cors({ origin: 'http://localhost:5173'}));
 
 if (process.env.NODE_ENV === "development") {
     const morgan = require('morgan')
