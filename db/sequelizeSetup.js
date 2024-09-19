@@ -6,9 +6,12 @@ const RoleModel = require('../models/roleModel');
 const CategoryModel = require('../models/categoryModel');
 const TopicModel = require('../models/topicModel');
 const PostModel = require('../models/postModel');
+const UserStatModel = require('../models/userStatModel');
+
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
+const mockUserStats = require('./userStats');
 
 const env = process.env.NODE_ENV;
 const config = require('../configs/db-config.json')[env];
@@ -26,6 +29,7 @@ const models = {
     Category : CategoryModel(sequelize),
     Topic : TopicModel(sequelize),
     Post : PostModel(sequelize),
+    UserStat : UserStatModel(sequelize),
 };
 
 // Setup associations
@@ -38,33 +42,33 @@ Object.keys(models).forEach(modelName => {
 const resetDb = process.env.NODE_ENV === "development";
 
 sequelize.sync({ force: resetDb })
-    .then(() => {
+    .then(async () => {
+        await models.Role.bulkCreate([
+            { id: 1, label: "superadmin" },
+            { id: 2, label: "admin" },
+            { id: 3, label: "user" }
+        ]);
 
-        models.Role.create({ id: 1, label: "superadmin" })
-        models.Role.create({ id: 2, label: "admin" })
-        models.Role.create({ id: 3, label: "user" })
-
-        mockCategories.forEach(async category => {
+        await Promise.all(mockCategories.map(category => 
             models.Category.create(category)
-                .then()
-                .catch(error => {
-                    console.log(error)
-                })
-        })
+                .catch(error => console.log(error))
+        ));
 
-        mockUsers.forEach(async user => {
-            const hash = await bcrypt.hash(user.password, 10)
-            user.password = hash
-            models.User.create(user)
-                .then()
-                .catch(error => {
-                    console.log(error)
-                })
-        })
+        await Promise.all(mockUsers.map(async user => {
+            const hash = await bcrypt.hash(user.password, 10);
+            user.password = hash;
+            return models.User.create(user)
+                .catch(error => console.log(error));
+        }));
+
+        await Promise.all(mockUserStats.map(userStat => 
+            models.UserStat.create(userStat)
+                .catch(error => console.log(error))
+        ));
     })
-    .catch((error) => {
-        console.log(error)
-    })
+    .catch(error => {
+        console.log(error);
+    });
 
 sequelize.authenticate()
 .then(() => console.log('La connexion à la base de données a bien été établie.'))
