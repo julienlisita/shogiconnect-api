@@ -5,13 +5,14 @@ const UserModel = require('../models/userModel');
 const RoleModel = require('../models/roleModel');
 const CategoryModel = require('../models/categoryModel');
 const TopicModel = require('../models/topicModel');
-const PostModel = require('../models/postModel');
+const CommentModel = require('../models/commentModel');
 const UserStatModel = require('../models/userStatModel');
 
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
 const mockTopics = require('./topics');
+const mockComments = require('./comments');
 const mockUserStats = require('./userStats');
 
 const env = process.env.NODE_ENV;
@@ -29,7 +30,7 @@ const models = {
     Role : RoleModel(sequelize),
     Category : CategoryModel(sequelize),
     Topic : TopicModel(sequelize),
-    Post : PostModel(sequelize),
+    Comment: CommentModel(sequelize),
     UserStat : UserStatModel(sequelize),
 };
 
@@ -63,6 +64,10 @@ sequelize.sync({ force: resetDb })
         }));
         await Promise.all(mockTopics.map(topic => 
             models.Topic.create(topic)
+                .catch(error => console.log(error))
+        ));
+        await Promise.all(mockComments.map(comment => 
+            models.Comment.create(comment)
                 .catch(error => console.log(error))
         ));
 

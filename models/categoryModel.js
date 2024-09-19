@@ -14,13 +14,17 @@ module.exports = (sequelize) => {
                 allowNull: true,
             },
         },
+        
         {
             updatedAt: false,
             createdAt: false,
         },
     );
     Category.associate = (models) => {
-        Category.hasMany(models.Topic, { foreignKey: { allowNull: false, defaultValue: 3 } });
+        Category.hasMany(models.Topic, { 
+            foreignKey: { allowNull: false }, 
+            onDelete: 'CASCADE' 
+        });
     };
     return Category;
 }

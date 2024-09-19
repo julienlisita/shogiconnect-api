@@ -20,9 +20,13 @@ module.exports = (sequelize) => {
         },
     );
     Topic.associate = (models) => {
-        Topic.hasMany(models.Post, { foreignKey: { allowNull: false, defaultValue: 3 } });
-        Topic.belongsTo(models.User, {foreignKey: 'UserId',allowNull: false,});
-        Topic.belongsTo(models.Category, { foreignKey: 'CategoryId', allowNull: false  });
+        Topic.hasMany(models.Comment, { 
+            onDelete: 'CASCADE', 
+            foreignKey: 'TopicId', 
+            allowNull: false 
+        });
+        Topic.belongsTo(models.User, { foreignKey: {allowNull: false  }});
+        Topic.belongsTo(models.Category, { foreignKey: {allowNull: false  }});
     };
     return Topic;
 }

@@ -73,6 +73,8 @@ module.exports = (sequelize) => {
   User.associate = (models) => {
     User.belongsTo(models.Role, { foreignKey: { allowNull: false } });
     User.hasMany(models.UserStat, { foreignKey: 'UserId', allowNull: false,});
+    User.hasMany(models.Topic, { foreignKey: 'UserId', allowNull: false,});
+    User.hasMany(models.Comment, { foreignKey: 'UserId', allowNull: false,});
   };
 
   return User;
