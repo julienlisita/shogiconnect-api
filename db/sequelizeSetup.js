@@ -7,6 +7,7 @@ const CategoryModel = require('../models/categoryModel');
 const TopicModel = require('../models/topicModel');
 const CommentModel = require('../models/commentModel');
 const UserStatModel = require('../models/userStatModel');
+const GameModel = require('../models/gameModel');
 
 
 const mockUsers = require('./users');
@@ -14,6 +15,7 @@ const mockCategories = require('./categories');
 const mockTopics = require('./topics');
 const mockComments = require('./comments');
 const mockUserStats = require('./userStats');
+const mockGames = require('./games');
 
 const env = process.env.NODE_ENV;
 const config = require('../configs/db-config.json')[env];
@@ -32,6 +34,7 @@ const models = {
     Topic : TopicModel(sequelize),
     Comment: CommentModel(sequelize),
     UserStat : UserStatModel(sequelize),
+    Game : GameModel(sequelize),
 };
 
 // Setup associations
@@ -73,6 +76,10 @@ sequelize.sync({ force: resetDb })
 
         await Promise.all(mockUserStats.map(userStat => 
             models.UserStat.create(userStat)
+                .catch(error => console.log(error))
+        ));
+        await Promise.all(mockGames.map(game => 
+            models.Game.create(game)
                 .catch(error => console.log(error))
         ));
     })
