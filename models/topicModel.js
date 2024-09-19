@@ -9,15 +9,10 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            author: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
             content: {
                 type: DataTypes.TEXT,
                 allowNull: false,
             },
-
         },
         {
             updatedAt: true,
@@ -26,8 +21,8 @@ module.exports = (sequelize) => {
     );
     Topic.associate = (models) => {
         Topic.hasMany(models.Post, { foreignKey: { allowNull: false, defaultValue: 3 } });
-        Topic.belongsTo(models.User, { foreignKey: { allowNull: false } });
-        Topic.belongsTo(models.Category, { foreignKey: { allowNull: false } });
+        Topic.belongsTo(models.User, {foreignKey: 'UserId',allowNull: false,});
+        Topic.belongsTo(models.Category, { foreignKey: 'CategoryId', allowNull: false  });
     };
     return Topic;
 }

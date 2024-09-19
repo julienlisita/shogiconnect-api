@@ -11,6 +11,7 @@ const UserStatModel = require('../models/userStatModel');
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
+const mockTopics = require('./topics');
 const mockUserStats = require('./userStats');
 
 const env = process.env.NODE_ENV;
@@ -60,6 +61,10 @@ sequelize.sync({ force: resetDb })
             return models.User.create(user)
                 .catch(error => console.log(error));
         }));
+        await Promise.all(mockTopics.map(topic => 
+            models.Topic.create(topic)
+                .catch(error => console.log(error))
+        ));
 
         await Promise.all(mockUserStats.map(userStat => 
             models.UserStat.create(userStat)
