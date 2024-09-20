@@ -21,6 +21,9 @@ const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const topicRouter = require('./routes/topicRoutes');
 const commentRouter = require('./routes/commentRoutes');
+const userStatRouter = require('./routes/userStatRoutes');
+const gameRouter = require('./routes/gameRoutes');
+
 
 app.get('/', (req, res) => {
     res.json({ message: 'Homepage' })
@@ -30,6 +33,8 @@ app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/topics', topicRouter);
 app.use('/api/comments', commentRouter);
+app.use('/api/userStats', userStatRouter);
+app.use('/api/games', gameRouter);
 
 const swagger = require('./configs/swagger');
 swagger(app);
