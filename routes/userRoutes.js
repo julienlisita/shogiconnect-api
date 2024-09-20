@@ -77,7 +77,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .get(protect, findAllUsers)
+    .get(findAllUsers)
 
     router
     .route('/signup')
@@ -183,7 +183,7 @@ router
     *       404:
     *         description: The user was not found
     */
-    .get(protect, findUserByPk)
+    .get(findUserByPk)
     /**
     * @openapi
     * /api/users/{id}:
