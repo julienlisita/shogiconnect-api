@@ -24,21 +24,17 @@ const findGameById = async (req, res) => {
 
 const createGame = async (req, res) => {
     try {
-        const { organizerId, participantId, status, level, rendez_vous_at } = req.body;
-        const organizer = await User.findByPk(organizerId);
-        const participant = await User.findByPk(participantId);
-        if (organizer && participant) {
-            const result = await Game.create({ 
-                organizerId, 
-                participantId, 
-                status, 
-                level, 
-                rendez_vous_at 
-            });
-            res.status(201).json({ message: 'Jeu créé', data: result });
-        } else {
-            return res.status(400).json({ error: 'Organisateur ou participant invalide' });
-        }
+        const { status = "disponible", level, rendezVousAt } = req.body;
+
+        const result = await Game.create({ 
+            OrganizerId: req.user.id, // Utiliser l'ID de l'utilisateur authentifié
+            ParticipantId: null, 
+            status, 
+            level, 
+            rendezVousAt 
+        });
+
+        res.status(201).json({ message: 'Jeu créé', data: result });
     } catch (error) {
         errorHandler(error, res);
     }
