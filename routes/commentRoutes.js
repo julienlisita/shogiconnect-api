@@ -34,6 +34,7 @@
 const express = require('express');
 const { findAllComments, findCommentByPk, createComment, updateComment, deleteComment } = require('../controllers/commentController')
 const router = express.Router();
+const { protect, restrictTo } = require('../middlewares/auth');
 
 router
     .route('/')
@@ -128,7 +129,7 @@ router
     *       404:
     *         description: The comment was not found
     */
-     .put(updateComment)
+     .put(protect,updateComment)
      /**
      * @openapi
      * /api/comments/{id}:
@@ -152,6 +153,6 @@ router
      *       404:
      *         description: The Comment was not found
      */
-     .delete(deleteComment)
+     .delete(protect,deleteComment)
 
 module.exports = router

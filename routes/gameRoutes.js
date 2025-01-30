@@ -8,6 +8,7 @@ const {
 } = require('../controllers/gameController');
 
 const router = express.Router();
+const { protect, restrictTo } = require('../middlewares/auth')
 
 /**
  * @swagger
@@ -102,7 +103,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .post(createGame);
+    .post(protect,createGame);
 
 router
     .route('/:id')
@@ -129,7 +130,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .get(findGameById)
+    .get(protect,findGameById)
     /**
     * @openapi
     * /api/games/{id}:
@@ -159,7 +160,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .put(updateGame)
+    .put(protect,updateGame)
     /**
     * @openapi
     * /api/games/{id}:
@@ -179,6 +180,6 @@ router
     *       404:
     *         description: The game was not found
     */
-    .delete(deleteGame);
+    .delete(protect,deleteGame);
 
 module.exports = router;

@@ -55,7 +55,6 @@
 
 const express = require('express')
 const { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
-const { login, logout } = require('../controllers/authController')
 const { protect, restrictTo } = require('../middlewares/auth')
 const router = express.Router()
 
@@ -232,61 +231,5 @@ router
     *         description: The user was not found
     */
     .delete(protect, restrictTo('superadmin'), deleteUser)
-
-    router
-    .route('/login')
-    /**
-    * @openapi
-    * /api/users/login:
-    *   post:
-    *     summary: Login as user
-    *     tags: [Users]
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/User'
-    *     responses:
-    *       200:
-    *         description: Login successful.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
-    *       400:
-    *         description: Invalid credentials.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
-    *       500:
-    *         description: Some server error 
-    */
-    .post(login)
-
-router
-    .route('/logout')
-    /**
-    * @openapi
-    * /api/users/logout:
-    *   post:
-    *     summary: Logout
-    *     tags: [Users]
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/User'
-    *     responses:
-    *       200:
-    *         description: Logout successful.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
-    */
-    .post(logout)
 
 module.exports = router

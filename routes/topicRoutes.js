@@ -38,6 +38,7 @@
 const express = require('express');
 const { findAllTopics, findTopicByPk, findTopicComments, createTopic, updateTopic, deleteTopic } = require('../controllers/topicController')
 const router = express.Router();
+const { protect, restrictTo } = require('../middlewares/auth')
 
 router
     .route('/')
@@ -132,7 +133,7 @@ router
     *       404:
     *         description: The topic was not found
     */
-     .put(updateTopic)
+     .put(protect,updateTopic)
      /**
      * @openapi
      * /api/topics/{id}:
@@ -156,7 +157,7 @@ router
      *       404:
      *         description: The topic was not found
      */
-     .delete(deleteTopic)
+     .delete(protect,deleteTopic)
 
 router
     .route('/:id/comments')
