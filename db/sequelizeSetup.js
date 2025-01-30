@@ -1,3 +1,5 @@
+// sequelizeSetup.js
+
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 
@@ -17,14 +19,13 @@ const mockComments = require('./comments');
 const mockUserStats = require('./userStats');
 const mockGames = require('./games');
 
-const env = process.env.NODE_ENV;
-const config = require('../configs/db-config.json')[env];
+const config = require('../configs/default.js');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect,
+const sequelize = new Sequelize(config.db.database, config.db.user, config.db.password, {
+    host: config.db.host,
+    dialect: config.db.dialect,
     logging: false,
-    port: config.port
+    port: config.db.port
 });
 
 const models = {
