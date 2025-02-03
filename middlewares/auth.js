@@ -11,7 +11,12 @@ const rolesHierarchy = {
 
 const protect = async (req, res, next) => {
     
-    const token = req.cookies.access_token
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Non authentifié" });
+    }
+
+    const token = authHeader.split(" ")[1];
     if (!token) {
         return res.status(401).json({ message: "Non authentifié" })
     }
