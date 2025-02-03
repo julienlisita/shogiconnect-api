@@ -5,7 +5,7 @@ const config = require ('../configs/default.js');
 
 const generateToken = (user) => {
   return jwt.sign(
-    { userId: user.id, email: user.email, roleId: user.roleId },
+    { userId: user.id, email: user.email, roleId: user.RoleId },
     config.jwt.secret,
     { expiresIn: config.jwt.expiresIn }
   );

@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
         },
     );
     Role.associate = (models) => {
-        Role.hasMany(models.User, { foreignKey: { allowNull: false, defaultValue: 3 } });
+        Role.hasMany(models.User, { foreignKey: { allowNull: false, defaultValue: 1 } });
     };
     return Role;
 }
