@@ -32,12 +32,12 @@ const findCommentByPk = async (req, res) => {
 const createComment =  async (req, res) => {
     try
     {
-        const {author, content, topicId, userId } = req.body;
+        const { content, topicId, userId } = req.body;
         const topic = await Topic.findByPk(topicId);
         const user = await User.findByPk(userId);
         if (topic && user) 
         {
-            const result = await Comment.create({ author, content, TopicId: topicId, UserId: userId });
+            const result = await Comment.create({ content, TopicId: topicId, UserId: userId });
             res.status(201).json({message: `Commentaire créé`, data: result});
         } 
         else 

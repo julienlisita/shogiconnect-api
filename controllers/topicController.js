@@ -52,12 +52,12 @@ const findTopicComments = async (req, res) => {
 const createTopic =  async (req, res) => {
     try
     {
-        const { title, author, content, categoryId, userId } = req.body;
+        const { title, content, categoryId, userId } = req.body;
         const category = await Category.findByPk(categoryId);
         const user = await User.findByPk(userId);
         if (category && user) 
         {
-            const result = await Topic.create({  title, author, content, CategoryId: categoryId, UserId: userId });
+            const result = await Topic.create({  title, content, CategoryId: categoryId, UserId: userId });
             res.status(201).json({message: `Topic créé`, data: result});
         } 
         else 
