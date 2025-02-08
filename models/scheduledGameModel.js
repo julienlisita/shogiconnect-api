@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    const Game = sequelize.define(
-        'Game',
+    const ScheduledGame = sequelize.define(
+        'ScheduledGame',
         {
             // Model attributes are defined here
             status: {
@@ -24,10 +24,10 @@ module.exports = (sequelize) => {
         }
     );
 
-    Game.associate = (models) => {
-        Game.belongsTo(models.User, { foreignKey: 'OrganizerId', as: 'Organizer' });
-        Game.belongsTo(models.User, { foreignKey: 'ParticipantId', as: 'Participant' });
+    ScheduledGame.associate = (models) => {
+        ScheduledGame.belongsTo(models.User, { foreignKey: 'OrganizerId', as: 'Organizer' });
+        ScheduledGame.belongsTo(models.User, { foreignKey: 'ParticipantId', as: 'Participant' });
     };
 
-    return Game;
+    return ScheduledGame;
 };

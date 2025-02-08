@@ -69,14 +69,14 @@ module.exports = (sequelize, models) => {
         }
     );
 
-    // Define associations
+    // Définition des relations
     User.associate = (models) => {
         User.belongsTo(models.Role, { foreignKey: { allowNull: false } });
         User.hasOne(models.UserStat, { foreignKey: 'UserId', allowNull: false });
         User.hasMany(models.Topic, { foreignKey: 'UserId', allowNull: false });
         User.hasMany(models.Comment, { foreignKey: 'UserId', allowNull: false });
-        User.hasMany(models.Game, { foreignKey: 'OrganizerId', as: 'OrganizedGames' });
-        User.hasMany(models.Game, { foreignKey: 'ParticipantId', as: 'ParticipatedGames' });
+        User.hasMany(models.ScheduledGame, { foreignKey: 'OrganizerId', as: 'OrganizedGames' });
+        User.hasMany(models.ScheduledGame, { foreignKey: 'ParticipantId', as: 'ParticipatedGames' });
     };
 
     return User;

@@ -1,18 +1,18 @@
-const { Game, User } = require("../db/sequelizeSetup");
+const { ScheduledGame, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 
-const findAllGames = async (req, res) => {
+const findAllScheduledGames = async (req, res) => {
     try {
-        const result = await Game.findAll();
+        const result = await ScheduledGame.findAll();
         return res.json({ data: result });
     } catch (error) {
         errorHandler(error, res);
     }
 };
 
-const findGameById = async (req, res) => {
+const findScheduledGameById = async (req, res) => {
     try {
-        const result = await Game.findByPk(req.params.id, { include: User });
+        const result = await ScheduledGame.findByPk(req.params.id, { include: User });
         if (!result) {
             return res.status(404).json({ message: 'Jeu non trouvé' });
         }
@@ -22,11 +22,11 @@ const findGameById = async (req, res) => {
     }
 };
 
-const createGame = async (req, res) => {
+const createScheduledGame = async (req, res) => {
     try {
         const { status = "disponible", level, rendezVousAt } = req.body;
 
-        const result = await Game.create({ 
+        const result = await ScheduledGame.create({ 
             OrganizerId: req.user.id, // Utiliser l'ID de l'utilisateur authentifié
             ParticipantId: null, 
             status, 
@@ -40,9 +40,9 @@ const createGame = async (req, res) => {
     }
 };
 
-const updateGame = async (req, res) => {
+const updateScheduledGame = async (req, res) => {
     try {
-        const result = await Game.findByPk(req.params.id);
+        const result = await ScheduledGame.findByPk(req.params.id);
         if (!result) {
             return res.status(404).json({ message: 'Jeu non trouvé' });
         }
@@ -54,9 +54,9 @@ const updateGame = async (req, res) => {
     }
 };
 
-const deleteGame = async (req, res) => {
+const deleteScheduledGame = async (req, res) => {
     try {
-        const result = await Game.findByPk(req.params.id);
+        const result = await ScheduledGame.findByPk(req.params.id);
         if (!result) {
             return res.status(404).json({ message: 'Jeu non trouvé' });
         }
@@ -67,4 +67,4 @@ const deleteGame = async (req, res) => {
     }
 };
 
-module.exports = { findAllGames, findGameById, createGame, updateGame, deleteGame };
+module.exports = { findAllScheduledGames, findScheduledGameById, createScheduledGame, updateScheduledGame, deleteScheduledGame };

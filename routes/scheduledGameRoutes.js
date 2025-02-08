@@ -1,11 +1,11 @@
 const express = require('express');
 const {
-    findAllGames,
-    findGameById,
-    createGame,
-    updateGame,
-    deleteGame,
-} = require('../controllers/gameController');
+    findAllScheduledGames,
+    findScheduledGameById,
+    createScheduledGame,
+    updateScheduledGame,
+    deleteScheduledGame,
+} = require('../controllers/scheduledGameController');
 
 const router = express.Router();
 const { protect, restrictTo } = require('../middlewares/auth')
@@ -80,7 +80,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .get(findAllGames)
+    .get(findAllScheduledGames)
     /**
     * @openapi
     * /api/games:
@@ -103,7 +103,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .post(protect,createGame);
+    .post(protect,createScheduledGame);
 
 router
     .route('/:id')
@@ -130,7 +130,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .get(protect,findGameById)
+    .get(protect,findScheduledGameById)
     /**
     * @openapi
     * /api/games/{id}:
@@ -160,7 +160,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .put(protect,updateGame)
+    .put(protect,updateScheduledGame)
     /**
     * @openapi
     * /api/games/{id}:
@@ -180,6 +180,6 @@ router
     *       404:
     *         description: The game was not found
     */
-    .delete(protect,deleteGame);
+    .delete(protect,deleteScheduledGame);
 
 module.exports = router;

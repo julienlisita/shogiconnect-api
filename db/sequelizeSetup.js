@@ -9,15 +9,14 @@ const CategoryModel = require('../models/categoryModel');
 const TopicModel = require('../models/topicModel');
 const CommentModel = require('../models/commentModel');
 const UserStatModel = require('../models/userStatModel');
-const GameModel = require('../models/gameModel');
-
+const ScheduledGameModel = require('../models/scheduledGameModel');
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
 const mockTopics = require('./topics');
 const mockComments = require('./comments');
 const mockUserStats = require('./userStats');
-const mockGames = require('./games');
+const mockScheduledGames = require('./scheduledGames.js');
 
 const config = require('../configs/default.js');
 
@@ -35,10 +34,10 @@ const models = {
     Topic : TopicModel(sequelize),
     Comment: CommentModel(sequelize),
     UserStat : UserStatModel(sequelize),
-    Game : GameModel(sequelize),
+    ScheduledGame : ScheduledGameModel(sequelize),
 };
 
-// Setup associations
+// Initialisation des associations
 Object.keys(models).forEach(modelName => {
     if (models[modelName].associate) {
         models[modelName].associate(models);
@@ -46,9 +45,9 @@ Object.keys(models).forEach(modelName => {
 });
 
 const resetDb = process.env.NODE_ENV === "development";
-
 sequelize.sync({ force: resetDb })
     .then(async () => {
+        
         await models.Role.bulkCreate([
             { id: 1, label: "superadmin" },
             { id: 2, label: "admin" },
@@ -79,8 +78,8 @@ sequelize.sync({ force: resetDb })
             models.UserStat.create(userStat)
                 .catch(error => console.log(error))
         ));
-        await Promise.all(mockGames.map(game => 
-            models.Game.create(game)
+        await Promise.all(mockScheduledGames.map(game => 
+            models.ScheduledGame.create(game)
                 .catch(error => console.log(error))
         ));
     })
@@ -91,6 +90,5 @@ sequelize.sync({ force: resetDb })
 sequelize.authenticate()
 .then(() => console.log('La connexion à la base de données a bien été établie.'))
 .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
-
 
 module.exports = { sequelize, ...models};

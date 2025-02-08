@@ -1,4 +1,4 @@
-games = [
+scheduledGames = [
     { 
         id: 1, 
         OrganizerId: 1, 
@@ -161,5 +161,5 @@ games = [
     }
   ]
 
-  module.exports = games;
+  module.exports = scheduledGames;
   
