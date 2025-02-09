@@ -9,6 +9,7 @@ const CategoryModel = require('../models/categoryModel');
 const TopicModel = require('../models/topicModel');
 const CommentModel = require('../models/commentModel');
 const UserStatModel = require('../models/userStatModel');
+const UserActivityModel = require('../models/userActivityModel');
 const ScheduledGameModel = require('../models/scheduledGameModel');
 
 const mockUsers = require('./users');
@@ -16,6 +17,7 @@ const mockCategories = require('./categories');
 const mockTopics = require('./topics');
 const mockComments = require('./comments');
 const mockUserStats = require('./userStats');
+const mockUserActivities = require('./userActivities');
 const mockScheduledGames = require('./scheduledGames.js');
 
 const config = require('../configs/default.js');
@@ -34,6 +36,7 @@ const models = {
     Topic : TopicModel(sequelize),
     Comment: CommentModel(sequelize),
     UserStat : UserStatModel(sequelize),
+    UserActivity : UserActivityModel(sequelize),
     ScheduledGame : ScheduledGameModel(sequelize),
 };
 
@@ -76,6 +79,10 @@ sequelize.sync({ force: resetDb })
 
         await Promise.all(mockUserStats.map(userStat => 
             models.UserStat.create(userStat)
+                .catch(error => console.log(error))
+        ));
+        await Promise.all(mockUserActivities.map(userActivity => 
+            models.UserActivity.create(userActivity)
                 .catch(error => console.log(error))
         ));
         await Promise.all(mockScheduledGames.map(game => 
