@@ -67,4 +67,25 @@ const deleteScheduledGame = async (req, res) => {
     }
 };
 
-module.exports = { findAllScheduledGames, findScheduledGameById, createScheduledGame, updateScheduledGame, deleteScheduledGame };
+const joinScheduledGame = async (req, res) => {
+    try {
+        const scheduledGame = await ScheduledGame.findByPk(req.params.id);
+        if (!scheduledGame) {
+            return res.status(404).json({ message: 'Partie non trouvée' });
+        }
+
+        if (scheduledGame.ParticipantId) {
+            return res.status(400).json({ message: 'Cette partie a déjà un participant' });
+        }
+
+        scheduledGame.ParticipantId = req.user.id;
+        scheduledGame.status = "reservée";
+        await scheduledGame.save();
+
+        res.status(200).json({ message: 'Inscription réussie', data: scheduledGame });
+    } catch (error) {
+        errorHandler(error, res);
+    }
+};
+
+module.exports = { findAllScheduledGames, findScheduledGameById, createScheduledGame, updateScheduledGame, deleteScheduledGame, joinScheduledGame };

@@ -5,16 +5,17 @@ const {
     createScheduledGame,
     updateScheduledGame,
     deleteScheduledGame,
+    joinScheduledGame,
 } = require('../controllers/scheduledGameController');
 
 const router = express.Router();
-const { protect, restrictTo } = require('../middlewares/auth')
+const { protect } = require('../middlewares/auth')
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     Game:
+ *     ScheduledGame:
  *       type: object
  *       required:
  *         - status
@@ -64,7 +65,7 @@ router
     .route('/')
     /**
     * @openapi
-    * /api/games:
+    * /api/scheduledGames:
     *   get:
     *     summary: Get all games
     *     tags: [Games]
@@ -80,10 +81,10 @@ router
     *       500:
     *         description: Some server error 
     */
-    .get(findAllScheduledGames)
+    .get(protect,findAllScheduledGames)
     /**
     * @openapi
-    * /api/games:
+    * /api/scheduledGames:
     *   post:
     *     summary: Create a new game
     *     tags: [Games]
@@ -109,7 +110,7 @@ router
     .route('/:id')
     /**
     * @openapi
-    * /api/games/{id}:
+    * /api/scheduledGames/{id}:
     *   get:
     *     summary: Get game by id
     *     tags: [Games]
@@ -133,7 +134,7 @@ router
     .get(protect,findScheduledGameById)
     /**
     * @openapi
-    * /api/games/{id}:
+    * /api/scheduledGames/{id}:
     *   put:
     *     summary: Update game by id
     *     tags: [Games]
@@ -161,9 +162,10 @@ router
     *         description: The game was not found
     */
     .put(protect,updateScheduledGame)
+    
     /**
     * @openapi
-    * /api/games/{id}:
+    * /api/scheduledGames/{id}:
     *   delete:
     *     summary: Delete game by id
     *     tags: [Games]
@@ -181,5 +183,28 @@ router
     *         description: The game was not found
     */
     .delete(protect,deleteScheduledGame);
+
+router
+    .route('/:id/join')
+    /**
+    * @openapi
+    * /api/scheduledGames/{id}/join:
+    *   delete:
+    *     summary: Delete game by id
+    *     tags: [Games]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: integer
+    *         required: true
+    *         description: The game id
+    *     responses:
+    *       200:
+    *         description: Game deleted
+    *       404:
+    *         description: The game was not found
+    */
+    .post(protect, joinScheduledGame);
 
 module.exports = router;

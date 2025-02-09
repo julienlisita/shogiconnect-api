@@ -2,7 +2,7 @@ scheduledGames = [
     { 
         id: 1, 
         OrganizerId: 1, 
-        ParticipantId: 20, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "débutant", 
         rendezVousAt: new Date ("2024-09-15T14:00:00") 
@@ -74,7 +74,7 @@ scheduledGames = [
     { 
         id: 10, 
         OrganizerId: 10, 
-        ParticipantId: 11,
+        ParticipantId: null,
         status: "disponible", 
         level: "débutant", 
         rendezVousAt:  new Date("2024-09-06T17:00:00")
@@ -82,7 +82,7 @@ scheduledGames = [
     { 
         id: 11, 
         OrganizerId: 11, 
-        ParticipantId: 10,
+        ParticipantId: null,
         status: "disponible", 
         level: "intermédiaire", 
         rendezVousAt:  new Date("2024-09-05T19:00:00") 
@@ -90,7 +90,7 @@ scheduledGames = [
     { 
         id: 12, 
         OrganizerId: 12, 
-        ParticipantId: 9, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "avancé", 
         rendezVousAt:  new Date("2024-09-04T09:30:00") 
@@ -130,7 +130,7 @@ scheduledGames = [
     { 
         id: 17, 
         OrganizerId: 17, 
-        ParticipantId: 4, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "intermédiaire", 
         rendezVousAt:  new Date("2024-08-30T13:00:00") 
@@ -138,7 +138,7 @@ scheduledGames = [
     { 
         id: 18, 
         OrganizerId: 18, 
-        ParticipantId: 3, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "avancé", 
         rendezVousAt:  new Date("2024-08-29T10:45:00") 
@@ -146,7 +146,7 @@ scheduledGames = [
     { 
         id: 19, 
         OrganizerId: 19, 
-        ParticipantId: 2, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "débutant", 
         rendezVousAt:  new Date("2024-08-28T11:15:00") 
@@ -154,7 +154,7 @@ scheduledGames = [
     { 
         id: 20, 
         OrganizerId: 20, 
-        ParticipantId: 1, 
+        ParticipantId: null, 
         status: "disponible", 
         level: "intermédiaire", 
         rendezVousAt:  new Date("2024-08-27T14:00:00") 
