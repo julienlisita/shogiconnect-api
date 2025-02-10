@@ -3,7 +3,8 @@ const {
     findAllActivities,
     findActivityById,
     createActivity,
-    deleteActivity
+    deleteActivity,
+    findActivityByUserId
 } = require('../controllers/userActivityController');
 
 const router = express.Router();
@@ -140,5 +141,10 @@ router
     *         description: The activity was not found
     */
     .delete(deleteActivity);
+
+    router
+    .route("/user/:userId")
+    .get(findActivityByUserId);
+
 
 module.exports = router;
