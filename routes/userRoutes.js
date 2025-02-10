@@ -54,7 +54,7 @@
  */
 
 const express = require('express')
-const { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
+const { findAllUsers, findUserByPk, createUser, updateUser, getProfile, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
 const { protect, restrictTo } = require('../middlewares/auth')
 const router = express.Router()
 
@@ -105,7 +105,29 @@ router
     .post(createUser)
 
 router
-    .route('/profile/')
+
+    .route('/profile')
+    /**
+    * @openapi
+    * /api/users/profile:
+    *   get:
+    *     summary: Get the user's profile using a JWT token
+    *     tags: [Users]
+    *     responses:
+    *       200:
+    *         description: The user's profile was retrieved successfully
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/UserProfile'
+    *       401:
+    *         description: Unauthorized - No valid JWT provided
+    *       404:
+    *         description: The user profile was not found
+    *       500:
+    *         description: Some error occurred while retrieving the profile
+    */
+    .get(protect, getProfile)
     /**
     * @openapi
     * /api/users/:
@@ -131,6 +153,34 @@ router
     *        description: Some error happened
     */
     .put(protect, updateProfile)
+
+router
+    .route('/profile/:id')
+    /**
+    * @openapi
+    * /api/users/:
+    *   delete:
+    *    summary: The user can delete his profile, by the id given in a jsonwebtoken
+    *    tags: [Users]
+    *    requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *          schema:
+    *            $ref: '#/components/schemas/user'
+    *    responses:
+    *      200:
+    *        description: The user was deleted
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/User'
+    *      404:
+    *        description: The user was not found
+    *      500:
+    *        description: Some error happened
+    */
+    .get(protect, deleteProfile)
     /**
     * @openapi
     * /api/users/:

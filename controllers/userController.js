@@ -77,6 +77,23 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getProfile = async (req, res) => {
+    try {
+        // Recherche de l'utilisateur par son ID extrait du JWT
+        const user = await User.findByPk(req.user.id);
+
+        // Vérification si l'utilisateur existe
+        if (!user) {
+            return res.status(404).json({ message: 'Profil utilisateur non trouvé' });
+        }
+
+        // Retourne le profil de l'utilisateur
+        res.status(200).json({ message: 'Profil récupéré avec succès', data: user });
+    } catch (error) {
+        errorHandler(error, res);
+    }
+}
+
 const updateProfile = async (req, res) => {
     try {
         const result = await User.findByPk(req.user.id);
@@ -107,4 +124,4 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, updateProfile, deleteProfile};
+module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, getProfile, updateProfile, deleteProfile};
