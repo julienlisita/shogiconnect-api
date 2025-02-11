@@ -1,6 +1,7 @@
 const { ScheduledGame, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 
+// Récupérer la liste des parties créées
 const findAllScheduledGames = async (req, res) => {
     try {
         const result = await ScheduledGame.findAll();
@@ -10,6 +11,7 @@ const findAllScheduledGames = async (req, res) => {
     }
 };
 
+// Récupérer une partie par id
 const findScheduledGameById = async (req, res) => {
     try {
         const result = await ScheduledGame.findByPk(req.params.id, { include: User });
@@ -22,6 +24,7 @@ const findScheduledGameById = async (req, res) => {
     }
 };
 
+// Créer une partie en tant qu'organisateur
 const createScheduledGame = async (req, res) => {
     try {
         const { status = "disponible", level, rendezVousAt } = req.body;
@@ -40,6 +43,7 @@ const createScheduledGame = async (req, res) => {
     }
 };
 
+// Modifier une partie en tant qu'organisateur
 const updateScheduledGame = async (req, res) => {
     try {
         const result = await ScheduledGame.findByPk(req.params.id);
@@ -54,19 +58,27 @@ const updateScheduledGame = async (req, res) => {
     }
 };
 
+// Supprimer une partie en tant qu'organisateur
 const deleteScheduledGame = async (req, res) => {
     try {
-        const result = await ScheduledGame.findByPk(req.params.id);
-        if (!result) {
-            return res.status(404).json({ message: 'Jeu non trouvé' });
+        const scheduledGame = await ScheduledGame.findByPk(req.params.id);
+
+        if (!scheduledGame) {
+            return res.status(404).json({ message: 'Partie non trouvée' });
         }
-        await result.destroy();
-        res.status(200).json({ message: 'Jeu supprimé', data: result });
+
+        if (scheduledGame.OrganizerId !== req.user.id) {
+            return res.status(403).json({ message: "Vous n'avez pas l'autorisation de supprimer cette partie." });
+        }
+
+        await scheduledGame.destroy();
+        res.status(200).json({ message: 'Partie supprimée avec succès' });
     } catch (error) {
         errorHandler(error, res);
     }
 };
 
+ // S'inscrire à une partie en tant que participant
 const joinScheduledGame = async (req, res) => {
     try {
         const scheduledGame = await ScheduledGame.findByPk(req.params.id);
@@ -88,4 +100,28 @@ const joinScheduledGame = async (req, res) => {
     }
 };
 
-module.exports = { findAllScheduledGames, findScheduledGameById, createScheduledGame, updateScheduledGame, deleteScheduledGame, joinScheduledGame };
+// Se désinscrire d'une partie en tant que participant
+const unsubscribeFromScheduledGame = async (req, res) => {
+    try {
+        const scheduledGame = await ScheduledGame.findByPk(req.params.id);
+
+        if (!scheduledGame) {
+            return res.status(404).json({ message: 'Partie non trouvée' });
+        }
+
+        // Vérification : seul le participant peut se désinscrire
+        if (scheduledGame.ParticipantId !== req.user.id) {
+            return res.status(403).json({ message: "Vous n'êtes pas inscrit à cette partie." });
+        }
+
+        scheduledGame.ParticipantId = null;
+        scheduledGame.status = "disponible";
+        await scheduledGame.save();
+
+        res.status(200).json({ message: 'Désinscription réussie', data: scheduledGame });
+    } catch (error) {
+        errorHandler(error, res);
+    }
+};
+
+module.exports = { findAllScheduledGames, findScheduledGameById, createScheduledGame, updateScheduledGame, deleteScheduledGame, joinScheduledGame, unsubscribeFromScheduledGame };

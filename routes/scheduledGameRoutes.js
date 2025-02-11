@@ -6,6 +6,7 @@ const {
     updateScheduledGame,
     deleteScheduledGame,
     joinScheduledGame,
+    unsubscribeFromScheduledGame,
 } = require('../controllers/scheduledGameController');
 
 const router = express.Router();
@@ -206,5 +207,24 @@ router
     *         description: The game was not found
     */
     .post(protect, joinScheduledGame);
+router
+    .route('/:id/unsubscribe')
+    /**
+    * @openapi
+    * /api/scheduledGames/{id}/unsubscribe:
+    *   post:
+    *     summary: Unsubscribe from a scheduled game
+    *     tags: [ScheduledGames]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: integer
+    *         required: true
+    *     responses:
+    *       200:
+    *         description: Successfully unsubscribed from the game.
+    */
+    .post(protect, unsubscribeFromScheduledGame);
 
 module.exports = router;
