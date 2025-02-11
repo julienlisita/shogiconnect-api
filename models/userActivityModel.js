@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       UserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -33,8 +37,8 @@ module.exports = (sequelize) => {
       },
     },
     {
-      updatedAt: false,
-      createdAt: false,
+      updatedAt: true,
+      createdAt: true,
     }
   );
 
