@@ -13,7 +13,7 @@ const findAllUsers = async (req, res) => {
 
 const findUserByPk = async (req, res) => {
     try {
-        const result = await User.findByPk(req.params.id,{ include: Role })
+        const result = await User.findByPk(req.params.id)
         if (!result) {
             return res.json({ message: 'Utilisateur non trouvé' })
         }
@@ -79,15 +79,10 @@ const deleteUser = async (req, res) => {
 
 const getProfile = async (req, res) => {
     try {
-        // Recherche de l'utilisateur par son ID extrait du JWT
         const user = await User.findByPk(req.user.id);
-
-        // Vérification si l'utilisateur existe
         if (!user) {
             return res.status(404).json({ message: 'Profil utilisateur non trouvé' });
         }
-
-        // Retourne le profil de l'utilisateur
         res.status(200).json({ message: 'Profil récupéré avec succès', data: user });
     } catch (error) {
         errorHandler(error, res);
@@ -118,7 +113,7 @@ const deleteProfile = async (req, res) => {
     try {
         const result = await User.findByPk(req.user.id);
         await result.destroy()
-        res.clearCookie('access_token').status(200).json({ message: 'Utilisateur supprimé', data: result })
+        res.status(200).json({ message: 'Profil utilisateur supprimé avec succès', data: result });
     } catch (error) {
         errorHandler(error, res)
     }
