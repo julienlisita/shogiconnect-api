@@ -2,7 +2,7 @@
  * @swagger
  * components:
  *   schemas:
- *     Shogi:
+ *     User:  
  *       type: object
  *       required:
  *         - pseudo
@@ -10,52 +10,53 @@
  *       properties:
  *         id:
  *           type: integer
- *           description: The id of the user, auto-generated
+ *           description: The unique identifier of the user, auto-generated
  *         pseudo:
  *           type: string
- *           description: The pseudo of the user
+ *           description: The username of the user
  *         email:
  *           type: string
- *           description: The e-mail of the user
+ *           description: The email address of the user
  *         password:
  *           type: string
- *           description: The password of the user
+ *           description: The password of the user (hashed)
  *         country:
  *           type: string
  *           description: The country of the user
  *         biography:
- *           type: text
- *           description: The biography of the user
- *         ratio:
- *           type: float
- *           description: The gamer rate of the user
- *         avatar: 
  *           type: string
- *           description: The avatar of the user
+ *           description: A short biography of the user
+ *         ratio:
+ *           type: number
+ *           format: float
+ *           description: The gaming rating of the user
+ *         avatar:
+ *           type: string
+ *           description: The URL of the user's avatar image
  *         createdAt:
  *           type: string
- *           format: date
- *           description: The date the user was added, auto-generated
+ *           format: date-time
+ *           description: The date when the user was created, auto-generated
  *         updatedAt:
  *           type: string
- *           format: date
- *           description: The date the user was updated, auto-generated
+ *           format: date-time
+ *           description: The date when the user was last updated, auto-generated
  *       example:
  *         id: 4
  *         pseudo: Juju
  *         email: jlisita@hotmail.fr
  *         password: efjzb565VHG
  *         country: France
- *         biography: je suis dev web
- *         ratio: 12,7
+ *         biography: Je suis développeur web
+ *         ratio: 12.7
  *         avatar: ehfzfhefzf
  *         createdAt: 2020-03-10T04:05:06.157Z
  *         updatedAt: 2020-03-10T04:05:06.157Z
  */
 
 const express = require('express')
-const { findAllUsers, findUserByPk, createUser, updateUser, getProfile, deleteUser, updateProfile, deleteProfile } = require('../controllers/userController')
-const { protect, restrictTo } = require('../middlewares/auth')
+const { findAllUsers, findUserByPk, updateUser, deleteUser, updateProfile, getProfile, deleteProfile } = require('../controllers/userController')
+const { protect } = require('../middlewares/auth')
 const router = express.Router()
 
 router
@@ -64,27 +65,48 @@ router
     * @openapi
     * /api/users:
     *   get:
-    *     summary: Get all users
+    *     summary: Retrieve all users
     *     tags: [Users]
     *     responses:
     *       200:
-    *         description: The list of users.
+    *         description: A list of users
+    *         content:
+    *           application/json:
+    *             schema:
+    *               type: array
+    *               items:
+    *                 $ref: '#/components/schemas/User'
+    *       500:
+    *         description: Internal server error
+    */
+    .get(findAllUsers)
+
+router
+    .route('/me')
+    /**
+    * @openapi
+    * /api/users/me:
+    *   get:
+    *     summary: Get the profile of the currently authenticated user
+    *     tags: [Users]
+    *     responses:
+    *       200:
+    *         description: The user's profile
     *         content:
     *           application/json:
     *             schema:
     *               $ref: '#/components/schemas/User'
+    *       404:
+    *         description: The user was not found
     *       500:
-    *         description: Some server error 
+    *         description: Internal server error
     */
-    .get(findAllUsers)
-
-    router
-    .route('/signup')
+    .get(protect, getProfile)
     /**
     * @openapi
-    * /api/users/signup:
-    *   post:
-    *     summary: Create a new user
+    * /api/users/me:
+    *   put:
+    *     summary: Update the profile of the currently authenticated user
     *     tags: [Users]
     *     requestBody:
     *       required: true
@@ -94,116 +116,34 @@ router
     *             $ref: '#/components/schemas/User'
     *     responses:
     *       200:
-    *         description: The created user.
+    *         description: The user was updated successfully
     *         content:
     *           application/json:
     *             schema:
     *               $ref: '#/components/schemas/User'
+    *       404:
+    *         description: The user was not found
     *       500:
-    *         description: Some server error 
+    *         description: Internal server error
     */
-    .post(createUser)
-
-router
-
-    .route('/profile')
+    .put(protect, updateProfile)
     /**
     * @openapi
-    * /api/users/profile:
-    *   get:
-    *     summary: Get the user's profile using a JWT token
+    * /api/users/me:
+    *   delete:
+    *     summary: Delete the currently authenticated user's profile
     *     tags: [Users]
     *     responses:
     *       200:
-    *         description: The user's profile was retrieved successfully
+    *         description: The user was deleted successfully
     *         content:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/UserProfile'
-    *       401:
-    *         description: Unauthorized - No valid JWT provided
+    *               $ref: '#/components/schemas/User'
     *       404:
-    *         description: The user profile was not found
+    *         description: The user was not found
     *       500:
-    *         description: Some error occurred while retrieving the profile
-    */
-    .get(protect, getProfile)
-    /**
-    * @openapi
-    * /api/users/:
-    *   put:
-    *    summary: The user can update his profile, by the id given in a jsonwebtoken
-    *    tags: [Users]
-    *    requestBody:
-    *      required: true
-    *      content:
-    *        application/json:
-    *          schema:
-    *            $ref: '#/components/schemas/user'
-    *    responses:
-    *      200:
-    *        description: The user was updated
-    *        content:
-    *          application/json:
-    *            schema:
-    *              $ref: '#/components/schemas/User'
-    *      404:
-    *        description: The user was not found
-    *      500:
-    *        description: Some error happened
-    */
-    .put(protect, updateProfile)
-
-router
-    .route('/profile/:id')
-    /**
-    * @openapi
-    * /api/users/:
-    *   delete:
-    *    summary: The user can delete his profile, by the id given in a jsonwebtoken
-    *    tags: [Users]
-    *    requestBody:
-    *      required: true
-    *      content:
-    *        application/json:
-    *          schema:
-    *            $ref: '#/components/schemas/user'
-    *    responses:
-    *      200:
-    *        description: The user was deleted
-    *        content:
-    *          application/json:
-    *            schema:
-    *              $ref: '#/components/schemas/User'
-    *      404:
-    *        description: The user was not found
-    *      500:
-    *        description: Some error happened
-    */
-    .get(protect, deleteProfile)
-    /**
-    * @openapi
-    * /api/users/:
-    *   delete:
-    *    summary: The user can delete his profile, by the id given in a jsonwebtoken
-    *    tags: [Users]
-    *    requestBody:
-    *      required: true
-    *      content:
-    *        application/json:
-    *          schema:
-    *            $ref: '#/components/schemas/user'
-    *    responses:
-    *      200:
-    *        description: The user was deleted
-    *        content:
-    *          application/json:
-    *            schema:
-    *              $ref: '#/components/schemas/User'
-    *      404:
-    *        description: The user was not found
-    *      500:
-    *        description: Some error happened
+    *         description: Internal server error
     */
     .delete(protect, deleteProfile)
 
@@ -213,7 +153,7 @@ router
     * @openapi
     * /api/users/{id}:
     *   get:
-    *     summary: Get the user by id
+    *     summary: Retrieve a user by their ID
     *     tags: [Users]
     *     parameters:
     *       - in: path
@@ -221,11 +161,11 @@ router
     *         schema:
     *           type: string
     *         required: true
-    *         description: The user id
+    *         description: The ID of the user
     *     responses:
     *       200:
-    *         description: The user response by id
-    *         contents:
+    *         description: The user found by ID
+    *         content:
     *           application/json:
     *             schema:
     *               $ref: '#/components/schemas/User'
@@ -237,7 +177,7 @@ router
     * @openapi
     * /api/users/{id}:
     *   put:
-    *     summary: Update the user by id, restricted to admin
+    *     summary: Update a user by their ID (restricted to admin)
     *     tags: [Users]
     *     parameters:
     *       - in: path
@@ -245,23 +185,25 @@ router
     *         schema:
     *           type: string
     *         required: true
-    *         description: The user id
+    *         description: The ID of the user
     *     responses:
     *       200:
-    *         description: User updated
-    *         contents:
+    *         description: The user was updated successfully
+    *         content:
     *           application/json:
     *             schema:
     *               $ref: '#/components/schemas/User'
     *       404:
     *         description: The user was not found
+    *       500:
+    *         description: Internal server error
     */
-    .put(protect, restrictTo('admin'), updateUser)
+    .put(protect, updateUser)
     /**
     * @openapi
     * /api/users/{id}:
     *   delete:
-    *     summary: Delete the user by id, restricted to admin
+    *     summary: Delete a user by their ID (restricted to admin)
     *     tags: [Users]
     *     parameters:
     *       - in: path
@@ -269,17 +211,19 @@ router
     *         schema:
     *           type: string
     *         required: true
-    *         description: The user id
+    *         description: The ID of the user
     *     responses:
     *       200:
-    *         description: User deleted
-    *         contents:
+    *         description: The user was deleted successfully
+    *         content:
     *           application/json:
     *             schema:
     *               $ref: '#/components/schemas/User'
     *       404:
     *         description: The user was not found
+    *       500:
+    *         description: Internal server error
     */
-    .delete(protect, restrictTo('superadmin'), deleteUser)
+    .delete(protect, deleteUser)
 
 module.exports = router
