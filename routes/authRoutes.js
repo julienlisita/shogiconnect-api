@@ -41,7 +41,7 @@
  */
 
 const express = require('express');
-const { login, logout, checkAuth, signup } = require('../controllers/authController');
+const { login, logout, checkAuth, signup, changePassword } = require('../controllers/authController');
 const router = express.Router();
 const { protect, restrictTo } = require('../middlewares/auth');
 
@@ -148,5 +148,41 @@ router
 *               $ref: '#/components/schemas/User'
 */
 .post(signup)
+
+router
+  .route('/change-password')
+  /**
+   * @openapi
+   * /api/auth/change-password:
+   *   patch:
+   *     summary: Change the user's password
+   *     tags: [Users]
+   *     security:
+   *       - bearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - oldPassword
+   *               - newPassword
+   *             properties:
+   *               oldPassword:
+   *                 type: string
+   *                 description: The current password of the user
+   *               newPassword:
+   *                 type: string
+   *                 description: The new password
+   *     responses:
+   *       200:
+   *         description: Password changed successfully.
+   *       400:
+   *         description: Old password incorrect or missing fields.
+   *       500:
+   *         description: Server error.
+   */
+  .patch(protect, changePassword);
 
 module.exports = router

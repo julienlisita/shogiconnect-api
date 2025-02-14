@@ -97,4 +97,36 @@ const signup = async (req, res) => {
     }
   };
 
-module.exports = { login, logout, checkAuth, signup }
+  const changePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: "Ancien et nouveau mot de passe requis." });
+        }
+
+        const user = await User.scope('withPassword').findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        // Vérification de l'ancien mot de passe
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Ancien mot de passe incorrect." });
+        }
+
+        // Hash du nouveau mot de passe
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({ message: "Mot de passe mis à jour avec succès." });
+
+    } catch (error) {
+        console.error("Erreur changement de mot de passe :", error);
+        res.status(500).json({ message: "Erreur serveur." });
+    }
+};
+
+module.exports = { login, logout, checkAuth, signup, changePassword }
