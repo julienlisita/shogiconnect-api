@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -39,6 +40,7 @@ app.use('/api/comments', commentRouter);
 app.use('/api/userStats', userStatRouter);
 app.use('/api/userActivities', userActivityRouter);
 app.use('/api/scheduledGames', scheduledGameRouter);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const swagger = require('./configs/swagger');
 swagger(app);

@@ -1,6 +1,7 @@
 const { User } = require("../db/sequelizeSetup");
 const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
+const fs = require('fs');
 
 const findAllUsers = async (req, res) => {
     try {
@@ -119,4 +120,40 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, getProfile, updateProfile, deleteProfile};
+// Fonction pour gérer l'upload de l'avatar
+const updateAvatar = async (req, res) => {
+    try {
+        // Vérification du fichier envoyé
+        const avatarFile = req.file;
+        if (!avatarFile) {
+            return res.status(400).json({ message: 'Aucun fichier image envoyé.' });
+        }
+
+        // Chemin du fichier avatar
+        const avatarPath = avatarFile.filename;
+
+        // Récupération de l'utilisateur actuellement connecté (basé sur son ID)
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+        }
+
+        // Mise à jour de l'avatar dans la base de données
+        user.avatar = avatarPath;
+        await user.save();
+
+        // Réponse de succès
+        return res.status(200).json({ message: 'Avatar mis à jour avec succès.', avatar: avatarPath });
+    } catch (error) {
+        // Gestion des erreurs spécifiques à Multer (par exemple fichier trop volumineux)
+        if (error instanceof multer.MulterError) {
+            return res.status(500).json({ message: 'Erreur d\'upload : ' + error.message });
+        }
+
+        // Gestion des autres erreurs
+        return res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'avatar.', error });
+    }
+};
+
+module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, getProfile, updateProfile, deleteProfile, updateAvatar};

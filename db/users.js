@@ -7,7 +7,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "shadowninja@example.com",
-        avatar: "avatar1.png"
+        avatar: null
     },
     {
         id: 2,
@@ -17,7 +17,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "sakurablossom@example.com",
-        avatar: "avatar2.png"
+        avatar: null
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "dragonslayer@example.com",
-        avatar: "avatar3.png"
+        avatar: null
     },
     {
         id: 4,
@@ -37,7 +37,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "samuraijack@example.com",
-        avatar: "avatar4.png"
+        avatar: null
     },
     {
         id: 5,
@@ -47,7 +47,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "roninwarrior@example.com",
-        avatar: "avatar5.png"
+        avatar: null
     },
     {
         id: 6,
@@ -57,7 +57,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "silentkiller@example.com",
-        avatar: "avatar6.png"
+        avatar: null
     },
     {
         id: 7,
@@ -67,7 +67,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "shogunmaster@example.com",
-        avatar: "avatar7.png"
+        avatar: null
     },
     {
         id: 8,
@@ -77,7 +77,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "pyxia@example.com",
-        avatar: "avatar8.png"
+        avatar: null
     },
     {
         id: 9,
@@ -87,7 +87,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "jlisita@example.com",
-        avatar: "avatar9.png"
+        avatar: null
     },
     {
         id: 10,
@@ -97,7 +97,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "evacapri@example.com",
-        avatar: "avatar10.png"
+        avatar: null
     },
     {
         id: 11,
@@ -107,7 +107,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "bushidospirit@example.com",
-        avatar: "avatar11.png"
+        avatar: null
     },
     {
         id: 12,
@@ -117,7 +117,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "shinobisoul@example.com",
-        avatar: "avatar12.png"
+        avatar: null
     },
     {
         id: 13,
@@ -127,7 +127,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "furysamurai@example.com",
-        avatar: "avatar13.png"
+        avatar: null
     },
     {
         id: 14,
@@ -137,7 +137,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "kurohoshi@example.com",
-        avatar: "avatar14.png"
+        avatar: null
     },
     {
         id: 15,
@@ -147,7 +147,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "whitetiger@example.com",
-        avatar: "avatar15.png"
+        avatar: null
     },
     {
         id: 16,
@@ -157,7 +157,7 @@ const users = [
         RoleId: 1,
         password: "password123",
         email: "crimsonblade@example.com",
-        avatar: "avatar16.png"
+        avatar: null
     },
     {
         id: 17,
@@ -167,7 +167,7 @@ const users = [
         RoleId: 2,
         password: "password123",
         email: "yagyuwarrior@example.com",
-        avatar: "avatar17.png"
+        avatar: null
     },
     {
         id: 18,
@@ -177,7 +177,7 @@ const users = [
         RoleId: 1,
         password: "simplepassword123",
         email: "tacticianmaster@example.com",
-        avatar: "avatar18.png"
+        avatar: null
       },
       {
         id: 19,
@@ -187,7 +187,7 @@ const users = [
         RoleId: 1,
         password: "kifuexpert123",
         email: "kifu.expert@example.com",
-        avatar: "avatar19.png"
+        avatar: null
       },
       {
         id: 20,
@@ -197,7 +197,7 @@ const users = [
         RoleId: 1,
         password: "strategistking123",
         email: "strategistking@example.com",
-        avatar: "avatar20.png"
+        avatar: null
       },
       {
         id: 21,
@@ -207,7 +207,7 @@ const users = [
         RoleId: 1,
         password: "bishopqueen123",
         email: "bishop.queen@example.com",
-        avatar: "avatar21.png"
+        avatar: null
       },
       {
         id: 22,
@@ -217,7 +217,7 @@ const users = [
         RoleId: 1,
         password: "knightrider123",
         email: "knight.rider@example.com",
-        avatar: "avatar22.png"
+        avatar: null
       },
       {
         id: 23,
@@ -227,7 +227,7 @@ const users = [
         RoleId: 1,
         password: "pawnstorm123",
         email: "pawn.storm@example.com",
-        avatar: "avatar23.png"
+        avatar: null
       },
       {
         id: 24,
@@ -237,7 +237,7 @@ const users = [
         RoleId: 1,
         password: "gamemaster123",
         email: "game.master@example.com",
-        avatar: "avatar24.png"
+        avatar: null
       },
       {
         id: 25,
@@ -247,7 +247,7 @@ const users = [
         RoleId: 1,
         password: "rookstar123",
         email: "rook.star@example.com",
-        avatar: "avatar25.png"
+        avatar: null
       },
       {
         id: 26,
@@ -257,7 +257,7 @@ const users = [
         RoleId: 1,
         password: "shogiwizard123",
         email: "shogi.wizard@example.com",
-        avatar: "avatar26.png"
+        avatar: null
       },
       {
         id: 27,
@@ -267,7 +267,7 @@ const users = [
         RoleId: 1,
         password: "endgameguru123",
         email: "endgame.guru@example.com",
-        avatar: "avatar27.png"
+        avatar: null
       },
       {
         id: 28,
@@ -277,7 +277,7 @@ const users = [
         RoleId: 1,
         password: "shogininja123",
         email: "shogi.ninja@example.com",
-        avatar: "avatar28.png"
+        avatar: null
       },
       {
         id: 29,
@@ -287,7 +287,7 @@ const users = [
         RoleId: 1,
         password: "checkmateartist123",
         email: "checkmate.artist@example.com",
-        avatar: "avatar29.png"
+        avatar: null
       },
       {
         id: 30,
@@ -297,7 +297,7 @@ const users = [
         RoleId: 1,
         password: "pawnmaster123",
         email: "pawn.master@example.com",
-        avatar: "avatar30.png"
+        avatar: null
       },
       {
         id: 31,
@@ -307,7 +307,7 @@ const users = [
         RoleId: 1,
         password: "tacticsmaster123",
         email: "tactics.master@example.com",
-        avatar: "avatar31.png"
+        avatar: null
       },
       {
         id: 32,
@@ -317,7 +317,7 @@ const users = [
         RoleId: 1,
         password: "shogifanatic123",
         email: "shogi.fanatic@example.com",
-        avatar: "avatar32.png"
+        avatar: null
       },
       {
         id: 33,
@@ -327,7 +327,7 @@ const users = [
         RoleId: 1,
         password: "kingofstrategy123",
         email: "king.of.strategy@example.com",
-        avatar: "avatar33.png"
+        avatar: null
       },
       {
         id: 34,
@@ -337,7 +337,7 @@ const users = [
         RoleId: 1,
         password: "shogischolar123",
         email: "shogi.scholar@example.com",
-        avatar: "avatar34.png"
+        avatar: null
       },
       {
         id: 35,
@@ -347,7 +347,7 @@ const users = [
         RoleId: 1,
         password: "knightofshogi123",
         email: "knight.of.shogi@example.com",
-        avatar: "avatar35.png"
+        avatar: null
       },
       {
         id: 36,
@@ -357,7 +357,7 @@ const users = [
         RoleId: 1,
         password: "shogiexplorer123",
         email: "shogi.explorer@example.com",
-        avatar: "avatar36.png"
+        avatar: null
       },
       {
         id: 37,
@@ -367,7 +367,7 @@ const users = [
         RoleId: 1,
         password: "endgamestrategist123",
         email: "endgame.strategist@example.com",
-        avatar: "avatar37.png"
+        avatar: null
       },
       {
         id: 38,
@@ -377,7 +377,7 @@ const users = [
         RoleId: 1,
         password: "shogisensei123",
         email: "shogi.sensei@example.com",
-        avatar: "avatar38.png"
+        avatar: null
       },
       {
         id: 39,
@@ -387,7 +387,7 @@ const users = [
         RoleId: 1,
         password: "rookmaster123",
         email: "rook.master@example.com",
-        avatar: "avatar39.png"
+        avatar: null
       },
       {
         id: 40,
@@ -397,7 +397,7 @@ const users = [
         RoleId: 1,
         password: "shogichampion123",
         email: "shogi.champion@example.com",
-        avatar: "avatar40.png"
+        avatar: null
       },
       {
         id: 41,
@@ -407,7 +407,7 @@ const users = [
         RoleId: 1,
         password: "pawnstormer123",
         email: "pawn.stormer@example.com",
-        avatar: "avatar41.png"
+        avatar: null
       },
       {
         id: 42,
@@ -417,7 +417,7 @@ const users = [
         RoleId: 1,
         password: "shogilover123",
         email: "shogi.lover@example.com",
-        avatar: "avatar42.png"
+        avatar: null
       },
       {
         id: 43,
@@ -427,7 +427,7 @@ const users = [
         RoleId: 1,
         password: "strategyguru123",
         email: "strategy.guru@example.com",
-        avatar: "avatar43.png"
+        avatar: null
       },
       {
         id: 44,
@@ -437,7 +437,7 @@ const users = [
         RoleId: 1,
         password: "shogiinnovator123",
         email: "shogi.innovator@example.com",
-        avatar: "avatar44.png"
+        avatar: null
       },
       {
         id: 45,
@@ -447,7 +447,7 @@ const users = [
         RoleId: 1,
         password: "tactician123",
         email: "tactician@example.com",
-        avatar: "avatar45.png"
+        avatar: null
       },
       {
         id: 46,
@@ -457,7 +457,7 @@ const users = [
         RoleId: 1,
         password: "shogistrategist123",
         email: "shogi.strategist@example.com",
-        avatar: "avatar46.png"
+        avatar: null
       },
       {
         id: 47,
@@ -467,7 +467,7 @@ const users = [
         RoleId: 1,
         password: "checkmatemaster123",
         email: "checkmate.master@example.com",
-        avatar: "avatar47.png"
+        avatar: null
       },
       {
         id: 48,
@@ -477,7 +477,7 @@ const users = [
         RoleId: 1,
         password: "shogiphilosopher123",
         email: "shogi.philosopher@example.com",
-        avatar: "avatar48.png"
+        avatar: null
       },
       {
         id: 49,
@@ -487,7 +487,7 @@ const users = [
         RoleId: 1,
         password: "shogimaster123",
         email: "shogi.master@example.com",
-        avatar: "avatar49.png"
+        avatar: null
       },
       {
         id: 50,
@@ -497,7 +497,7 @@ const users = [
         RoleId: 1,
         password: "knightstrategist123",
         email: "knight.strategist@example.com",
-        avatar: "avatar50.png"
+        avatar: null
       }
     ]
 
