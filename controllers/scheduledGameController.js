@@ -1,5 +1,6 @@
 const { ScheduledGame, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
+const ROLE_ADMIN = 2
 
 // Récupérer la liste des parties créées
 const findAllScheduledGames = async (req, res) => {
@@ -66,8 +67,8 @@ const deleteScheduledGame = async (req, res) => {
         if (!scheduledGame) {
             return res.status(404).json({ message: 'Partie non trouvée' });
         }
-
-        if (scheduledGame.OrganizerId !== req.user.id) {
+        
+        if (scheduledGame.OrganizerId !== req.user.id && req.user.RoleId !== ROLE_ADMIN) {
             return res.status(403).json({ message: "Vous n'avez pas l'autorisation de supprimer cette partie." });
         }
 
