@@ -52,9 +52,8 @@ sequelize.sync({ force: resetDb })
     .then(async () => {
         
         await models.Role.bulkCreate([
-            { id: 1, label: "superadmin" },
+            { id: 1, label: "user" },
             { id: 2, label: "admin" },
-            { id: 3, label: "user" }
         ]);
 
         await Promise.all(mockCategories.map(category => 
