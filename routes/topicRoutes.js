@@ -133,7 +133,7 @@ router
     *       404:
     *         description: The topic was not found
     */
-     .put(protect,updateTopic)
+     .put(protect, restrictTo('admin'), updateTopic)
      /**
      * @openapi
      * /api/topics/{id}:
@@ -157,7 +157,7 @@ router
      *       404:
      *         description: The topic was not found
      */
-     .delete(protect,deleteTopic)
+     .delete(protect, restrictTo('admin'), deleteTopic)
 
 router
     .route('/:id/comments')

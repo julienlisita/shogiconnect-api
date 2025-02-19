@@ -56,7 +56,7 @@
 
 const express = require('express')
 const { findAllUsers, findUserByPk, updateUser, deleteUser, updateProfile, getProfile, deleteProfile, updateAvatar } = require('../controllers/userController')
-const { protect } = require('../middlewares/auth')
+const { protect,restrictTo } = require('../middlewares/auth')
 const router = express.Router();
 const upload = require('../middlewares/upload');
 
@@ -199,7 +199,7 @@ router
     *       500:
     *         description: Internal server error
     */
-    .put(protect, updateUser)
+    .put(protect, restrictTo('admin'), updateUser)
     /**
     * @openapi
     * /api/users/{id}:
@@ -225,7 +225,7 @@ router
     *       500:
     *         description: Internal server error
     */
-    .delete(protect, deleteUser)
+    .delete(protect, restrictTo('admin'), deleteUser)
 
 router
     .route('/me/avatar')

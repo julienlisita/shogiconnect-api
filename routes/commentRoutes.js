@@ -129,7 +129,7 @@ router
     *       404:
     *         description: The comment was not found
     */
-     .put(protect,updateComment)
+     .put(protect, restrictTo('admin'), updateComment)
      /**
      * @openapi
      * /api/comments/{id}:
@@ -153,6 +153,6 @@ router
      *       404:
      *         description: The Comment was not found
      */
-     .delete(protect,deleteComment)
+     .delete(protect, restrictTo('admin'), deleteComment)
 
 module.exports = router

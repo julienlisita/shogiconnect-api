@@ -10,7 +10,7 @@ const {
 } = require('../controllers/scheduledGameController');
 
 const router = express.Router();
-const { protect } = require('../middlewares/auth')
+const { protect, restrictTo } = require('../middlewares/auth')
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .get(protect,findAllScheduledGames)
+    .get(protect, findAllScheduledGames)
     /**
     * @openapi
     * /api/scheduledGames:
@@ -105,7 +105,7 @@ router
     *       500:
     *         description: Some server error 
     */
-    .post(protect,createScheduledGame);
+    .post(protect, createScheduledGame);
 
 router
     .route('/:id')
@@ -132,7 +132,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .get(protect,findScheduledGameById)
+    .get(protect, findScheduledGameById)
     /**
     * @openapi
     * /api/scheduledGames/{id}:
@@ -162,7 +162,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .put(protect,updateScheduledGame)
+    .put(protect, restrictTo("admin"), updateScheduledGame)
     
     /**
     * @openapi
@@ -183,7 +183,7 @@ router
     *       404:
     *         description: The game was not found
     */
-    .delete(protect,deleteScheduledGame);
+    .delete(protect, restrictTo("admin"), deleteScheduledGame);
 
 router
     .route('/:id/join')
