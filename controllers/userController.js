@@ -66,7 +66,14 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const result = await User.findByPk(req.params.id);
+        const userId = req.params.id;
+        const currentUserId = req.user.id; 
+
+        if (userId === currentUserId) {
+            return res.status(403).json({ message: 'Vous ne pouvez pas vous supprimer vous-même.' });
+        }
+
+        const result = await User.findByPk(userId);
         if (!result) {
             return res.status(404).json({ message: `L'utilisateur n'existe pas` })
         }
