@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
 const fs = require('fs');
 
+// Fonction pour récupérer la liste de tous les utilisateurs
 const findAllUsers = async (req, res) => {
     try {
         const result = await User.findAll()
@@ -12,6 +13,7 @@ const findAllUsers = async (req, res) => {
     }
 }
 
+// Fonction pour trouver un utilisateur par son id
 const findUserByPk = async (req, res) => {
     try {
         const result = await User.findByPk(req.params.id)
@@ -24,6 +26,7 @@ const findUserByPk = async (req, res) => {
     }
 }
 
+// Fonction pour créer un nouvel utilisateur
 const createUser = async (req, res) => {
     try {
         const hashPassword = await bcrypt.hash(req.body.password, 5)
@@ -41,6 +44,7 @@ const createUser = async (req, res) => {
     }
 }
 
+// Fonction pour mettre à jour un utilisateur
 const updateUser = async (req, res) => {
     try {
         const result = await User.findByPk(req.params.id);
@@ -64,6 +68,7 @@ const updateUser = async (req, res) => {
     }
 }
 
+// Fonction pour supprimer un utilisateur
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -85,6 +90,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// fonction pour accèder à ses données de profil
 const getProfile = async (req, res) => {
     try {
         const user = await User.findByPk(req.user.id);
@@ -97,6 +103,7 @@ const getProfile = async (req, res) => {
     }
 }
 
+// fonction mettre à jour son propore profil
 const updateProfile = async (req, res) => {
     try {
         const result = await User.findByPk(req.user.id);
@@ -117,6 +124,7 @@ const updateProfile = async (req, res) => {
     }
 }
 
+// Fonction pour supprimer son propre profil
 const deleteProfile = async (req, res) => {
     try {
         const result = await User.findByPk(req.user.id);
@@ -163,4 +171,22 @@ const updateAvatar = async (req, res) => {
     }
 };
 
-module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, getProfile, updateProfile, deleteProfile, updateAvatar};
+// Fonction pour changer le role de l'utilisateur
+const updateUserRole = async (req, res) => {
+    try {
+        const result = await User.findByPk(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: `L'utilisateur n'existe pas` });
+        }
+
+        // Mise à jour du rôle
+        result.RoleId = req.body.RoleId;
+        await result.save();
+
+        res.status(200).json({ message: "Rôle mis à jour avec succès", data: result });
+    } catch (error) {
+        errorHandler(error, res);
+    }
+};
+
+module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser, getProfile, updateProfile, deleteProfile, updateAvatar, updateUserRole};

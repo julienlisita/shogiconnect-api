@@ -33,6 +33,10 @@
  *         avatar:
  *           type: string
  *           description: The URL of the user's avatar image
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           description: The role of the user
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -50,13 +54,14 @@
  *         biography: Je suis développeur web
  *         ratio: 12.7
  *         avatar: ehfzfhefzf
+ *         role: user
  *         createdAt: 2020-03-10T04:05:06.157Z
  *         updatedAt: 2020-03-10T04:05:06.157Z
  */
 
-const express = require('express')
-const { findAllUsers, findUserByPk, updateUser, deleteUser, updateProfile, getProfile, deleteProfile, updateAvatar } = require('../controllers/userController')
-const { protect,restrictTo } = require('../middlewares/auth')
+const express = require('express');
+const { findAllUsers, findUserByPk, updateUser, deleteUser, updateProfile, getProfile, deleteProfile, updateAvatar, updateUserRole } = require('../controllers/userController');
+const { protect, restrictTo } = require('../middlewares/auth');
 const router = express.Router();
 const upload = require('../middlewares/upload');
 
@@ -80,7 +85,7 @@ router
     *       500:
     *         description: Internal server error
     */
-    .get(findAllUsers)
+    .get(findAllUsers);
 
 router
     .route('/me')
@@ -137,16 +142,12 @@ router
     *     responses:
     *       200:
     *         description: The user was deleted successfully
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
     *       404:
     *         description: The user was not found
     *       500:
     *         description: Internal server error
     */
-    .delete(protect, deleteProfile)
+    .delete(protect, deleteProfile);
 
 router
     .route('/:id')
@@ -160,7 +161,7 @@ router
     *       - in: path
     *         name: id
     *         schema:
-    *           type: string
+    *           type: integer
     *         required: true
     *         description: The ID of the user
     *     responses:
@@ -184,16 +185,12 @@ router
     *       - in: path
     *         name: id
     *         schema:
-    *           type: string
+    *           type: integer
     *         required: true
     *         description: The ID of the user
     *     responses:
     *       200:
     *         description: The user was updated successfully
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
     *       404:
     *         description: The user was not found
     *       500:
@@ -206,6 +203,24 @@ router
     *   delete:
     *     summary: Delete a user by their ID (restricted to admin)
     *     tags: [Users]
+    *     responses:
+    *       200:
+    *         description: The user was deleted successfully
+    *       404:
+    *         description: The user was not found
+    *       500:
+    *         description: Internal server error
+    */
+    .delete(protect, restrictTo('admin'), deleteUser);
+
+router
+    .route('/:id/role')
+    /**
+    * @openapi
+    * /api/users/{id}/role:
+    *   patch:
+    *     summary: Update the role of a user (restricted to admin)
+    *     tags: [Users]
     *     parameters:
     *       - in: path
     *         name: id
@@ -213,54 +228,26 @@ router
     *           type: string
     *         required: true
     *         description: The ID of the user
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             type: object
+    *             properties:
+    *               roleId:
+    *                 type: integer
+    *                 description: The new role ID of the user
     *     responses:
     *       200:
-    *         description: The user was deleted successfully
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/User'
+    *         description: The user's role was updated successfully
+    *       400:
+    *         description: Invalid role ID provided
     *       404:
     *         description: The user was not found
     *       500:
     *         description: Internal server error
     */
-    .delete(protect, restrictTo('admin'), deleteUser)
+    .patch(protect, restrictTo('admin'), updateUserRole);
 
-router
-    .route('/me/avatar')
-    /**
-    * @openapi
-    * /api/users/me/avatar:
-    *   patch:
-    *     summary: Update the avatar of the currently authenticated user
-    *     tags: [Users]
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         multipart/form-data:
-    *           schema:
-    *             type: object
-    *             properties:
-    *               avatar:
-    *                 type: string
-    *                 format: binary
-    *     responses:
-    *       200:
-    *         description: The avatar was updated successfully
-    *         content:
-    *           application/json:
-    *             schema:
-    *               type: object
-    *               properties:
-    *                 avatar:
-    *                   type: string
-    *                   description: The URL of the user's updated avatar
-    *       400:
-    *         description: No file was uploaded or the file type is incorrect
-    *       500:
-    *         description: Internal server error
-    */
-    .patch(protect, upload.single('avatar'), updateAvatar);
-
-module.exports = router
+module.exports = router;
