@@ -110,9 +110,9 @@ const unsubscribeFromScheduledGame = async (req, res) => {
             return res.status(404).json({ message: 'Partie non trouvée' });
         }
 
-        // Vérification : seul le participant peut se désinscrire
-        if (scheduledGame.ParticipantId !== req.user.id) {
-            return res.status(403).json({ message: "Vous n'êtes pas inscrit à cette partie." });
+        // Vérification : seul le participant lui même ou un admin pour le désinscrire
+        if (scheduledGame.ParticipantId !== req.user.id && req.user.RoleId !== ROLE_ADMIN) {
+            return res.status(403).json({ message: "Vous n'avez pas de droit de désincrire ce participant" });
         }
 
         scheduledGame.ParticipantId = null;
