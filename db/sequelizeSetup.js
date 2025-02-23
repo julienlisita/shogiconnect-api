@@ -11,6 +11,7 @@ const CommentModel = require('../models/commentModel');
 const UserStatModel = require('../models/userStatModel');
 const UserActivityModel = require('../models/userActivityModel');
 const ScheduledGameModel = require('../models/scheduledGameModel');
+const AdminActivityModel = require('../models/AdminActivityModel.js')
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
@@ -38,6 +39,7 @@ const models = {
     UserStat : UserStatModel(sequelize),
     UserActivity : UserActivityModel(sequelize),
     ScheduledGame : ScheduledGameModel(sequelize),
+    AdminActivity : AdminActivityModel(sequelize),
 };
 
 // Initialisation des associations
