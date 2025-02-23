@@ -1,6 +1,7 @@
 const { User } = require("../db/sequelizeSetup");
 const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
+const { AdminActivity } = require("../db/sequelizeSetup");
 const fs = require('fs');
 
 // Fonction pour récupérer la liste de tous les utilisateurs
@@ -73,6 +74,7 @@ const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
         const currentUserId = req.user.id; 
+        const userRole = req.user.RoleId;
 
         if (userId === currentUserId) {
             return res.status(403).json({ message: 'Vous ne pouvez pas vous supprimer vous-même.' });
@@ -84,6 +86,19 @@ const deleteUser = async (req, res) => {
         }
 
         await result.destroy()
+
+        // Si l'utilisateur est un administrateur, enregistrer l'activité
+        if (userRole === 2) {
+            // Enregistrer l'activité de l'admin (par exemple, suppression d'un utilisateur)
+            await AdminActivity.create({
+                activity_type: 'DELETE_USER',  // Type d'activité
+                admin_id: req.user.id,  // ID de l'admin
+                related_id: userId,  // ID de l'utilisateur supprimé
+                related_name: result.username, // Nom de l'utilisateur supprimé (par exemple)
+                related_type: 'User'  // Type de l'entité liée (ici, un utilisateur)
+            });
+        }
+        
         res.status(200).json({ message: 'Utilisateur supprimé', data: result })
     } catch (error) {
         errorHandler(error, res)
