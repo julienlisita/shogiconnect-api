@@ -2,7 +2,7 @@ const { User } = require("../db/sequelizeSetup");
 const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
-const fs = require('fs');
+const { updateAdminStats } = require('../services/adminStatsService'); // Importer le service
 
 // Fonction pour récupérer la liste de tous les utilisateurs
 const findAllUsers = async (req, res) => {
@@ -89,7 +89,7 @@ const deleteUser = async (req, res) => {
 
         // Si l'utilisateur est un administrateur, enregistrer l'activité
         if (userRole === 2) {
-            // Enregistrer l'activité de l'admin (par exemple, suppression d'un utilisateur)
+            // Enregistrer l'activité de l'admin 
             await AdminActivity.create({
                 activity_type: 'DELETE_USER',  // Type d'activité
                 admin_id: req.user.id,  // ID de l'admin
@@ -97,6 +97,8 @@ const deleteUser = async (req, res) => {
                 related_name: result.username, // Nom de l'utilisateur supprimé (par exemple)
                 related_type: 'User'  // Type de l'entité liée (ici, un utilisateur)
             });
+            // Mettre à jour les statistiques de l'admin
+            await updateAdminStats(req.user.id, 'DELETE_USER');
         }
         
         res.status(200).json({ message: 'Utilisateur supprimé', data: result })
