@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      gamesDeleted: {
+      scheduledGamesDeleted: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
