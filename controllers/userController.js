@@ -2,7 +2,8 @@ const { User } = require("../db/sequelizeSetup");
 const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
-const { updateAdminStats } = require('../services/adminStatsService'); // Importer le service
+const { updateAdminStats } = require('../services/adminStatsService'); 
+const ROLE_ADMIN = 2;
 
 // Fonction pour récupérer la liste de tous les utilisateurs
 const findAllUsers = async (req, res) => {
@@ -88,7 +89,7 @@ const deleteUser = async (req, res) => {
         await result.destroy()
 
         // Si l'utilisateur est un administrateur, enregistrer l'activité
-        if (userRole === 2) {
+        if (userRole === ROLE_ADMIN) {
             // Enregistrer l'activité de l'admin 
             await AdminActivity.create({
                 activity_type: 'DELETE_USER',  // Type d'activité

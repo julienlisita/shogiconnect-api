@@ -1,5 +1,8 @@
 const { Topic, Category, Comment, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
+const { AdminActivity } = require("../db/sequelizeSetup");
+const { updateAdminStats } = require('../services/adminStatsService');
+const ROLE_ADMIN = 2;
 
 const findAllTopics = async (req, res) => {
     try 
@@ -91,12 +94,31 @@ const updateTopic = async (req, res) => {
 const deleteTopic = async (req, res) => {
     try
     {
+        const userRole = req.user.RoleId;
+        const topicId = req.params.id;
+        const adminId = req.user.id; // ID de l'admin (si applicable)
+
         const result = await Topic.findByPk(req.params.id);
+
         if (!result) {
             return res.status(404).json({ message: 'Topic non trouvé' });
         }
+        const topicAuthor = (await result.getUser()).username;
         await result.destroy();
         res.status(200).json({ message: 'Topic supprimé', data: result });
+
+        // Si c'est un administrateur, enregistrer l'activité
+        if (userRole === 2) {
+            await AdminActivity.create({
+                activity_type: 'DELETE_TOPIC',
+                related_id: topicId,
+                related_type: 'Topic',
+                related_name: topicAuthor, 
+                admin_id: adminId
+            });
+        }
+        // Mettre à jour les statistiques de l'admin
+        await updateAdminStats(req.user.id, 'DELETE_TOPIC');
     }
     catch(error)
     {
