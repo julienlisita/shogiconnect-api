@@ -1,5 +1,8 @@
 const { Comment, Topic, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
+const { AdminActivity } = require("../db/sequelizeSetup");
+const { updateAdminStats } = require('../services/adminStatsService');
+const ROLE_ADMIN = 2;
 
 const findAllComments = async (req, res) => {
     try 
@@ -71,12 +74,32 @@ const updateComment = async (req, res) => {
 const deleteComment = async (req, res) => {
     try
     {
+        const userRole = req.user.RoleId;
+        const commentId = req.params.id;
+        const adminId = req.user.id; // ID de l'admin (si applicable)
+
         const result = await Comment.findByPk(req.params.id);
         if (!result) {
             return res.status(404).json({ message: 'Commentaire non trouvé' });
         }
+        
+        const commentAuthor = (await result.getUser()).username;
+
         await result.destroy();
         res.status(200).json({ message: 'Commentaire supprimé', data: result });
+
+         // Si c'est un administrateur, enregistrer l'activité
+         if (userRole === ROLE_ADMIN) {
+            await AdminActivity.create({
+                activity_type: 'DELETE_COMMENT',
+                related_id: commentId,
+                related_type: 'Comment',
+                related_name: commentAuthor, // Sauvegarde du titre du topic supprimé
+                admin_id: adminId
+            });
+        }
+        // Mettre à jour les statistiques de l'admin
+        await updateAdminStats(req.user.id, 'DELETE_COMMENT');
     }
     catch(error)
     {
