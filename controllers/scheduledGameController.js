@@ -1,6 +1,8 @@
 const { ScheduledGame, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
-const ROLE_ADMIN = 2
+const { AdminActivity } = require("../db/sequelizeSetup");
+const { updateAdminStats } = require('../services/adminStatsService');
+const ROLE_ADMIN = 2;
 
 // Récupérer la liste des parties créées
 const findAllScheduledGames = async (req, res) => {
@@ -62,7 +64,14 @@ const updateScheduledGame = async (req, res) => {
 // Supprimer une partie en tant qu'organisateur
 const deleteScheduledGame = async (req, res) => {
     try {
-        const scheduledGame = await ScheduledGame.findByPk(req.params.id);
+
+        const userRole = req.user.RoleId;
+        const squeduledGameId = req.params.id;
+        const adminId = req.user.id; // ID de l'admin (si applicable)
+        
+        const scheduledGame = await ScheduledGame.findByPk(req.params.id, {
+            include: { model: User, as: 'Organizer' } 
+        });
 
         if (!scheduledGame) {
             return res.status(404).json({ message: 'Partie non trouvée' });
@@ -72,8 +81,26 @@ const deleteScheduledGame = async (req, res) => {
             return res.status(403).json({ message: "Vous n'avez pas l'autorisation de supprimer cette partie." });
         }
 
+        // Récupérer le nom de l'organisateur
+        const organizerName = scheduledGame.Organizer ? scheduledGame.Organizer.username : "Inconnu";
+
+
         await scheduledGame.destroy();
         res.status(200).json({ message: 'Partie supprimée avec succès' });
+
+         // Si c'est un administrateur, enregistrer l'activité
+         if (userRole === ROLE_ADMIN) {
+            await AdminActivity.create({
+                activity_type: 'DELETE_SCHEDULED_GAME',
+                related_id: squeduledGameId,
+                related_type: 'Comment',
+                related_name: organizerName, 
+                admin_id: adminId
+            });
+        }
+        // Mettre à jour les statistiques de l'admin
+        await updateAdminStats(req.user.id, 'DELETE_SCHEDULED_GAME');
+
     } catch (error) {
         errorHandler(error, res);
     }
