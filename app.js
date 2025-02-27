@@ -26,7 +26,7 @@ const commentRouter = require('./routes/commentRoutes');
 const userStatRouter = require('./routes/userStatRoutes');
 const userActivityRouter = require('./routes/userActivityRoutes')
 const scheduledGameRouter = require('./routes/scheduledGameRoutes');
-
+const adminActivityRouter = require('./routes/adminActivityRoutes');
 
 app.get('/', (req, res) => {
     res.json({ message: 'Homepage' })
@@ -39,6 +39,7 @@ app.use('/api/topics', topicRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/userStats', userStatRouter);
 app.use('/api/userActivities', userActivityRouter);
+app.use('/api/adminActivities', adminActivityRouter);
 app.use('/api/scheduledGames', scheduledGameRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
