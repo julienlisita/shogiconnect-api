@@ -2,9 +2,6 @@ const express = require('express');
 const {
     findAllActivities,
     findActivityById,
-    createActivity,
-    deleteActivity,
-    findActivityByUserId
 } = require('../controllers/userActivityController');
 
 const router = express.Router();
@@ -13,7 +10,7 @@ const router = express.Router();
  * @swagger
  * components:
  *   schemas:
- *     Activity:
+ *     UserActivity:
  *       type: object
  *       required:
  *         - userId
@@ -53,98 +50,54 @@ const router = express.Router();
 router
     .route('/')
     /**
-    * @openapi
-    * /api/activities:
+    * @swagger
+    * /api/user-activities:
     *   get:
-    *     summary: Get all activities
-    *     tags: [Activities]
+    *     summary: Retrieve all user activities
+    *     description: Fetches all activities performed by regular users.
+    *     tags: [User Activities]
     *     responses:
     *       200:
-    *         description: The list of activities.
+    *         description: A list of all recorded user activities.
     *         content:
     *           application/json:
     *             schema:
     *               type: array
     *               items:
-    *                 $ref: '#/components/schemas/Activity'
+    *                 $ref: '#/components/schemas/UserActivity'
     *       500:
-    *         description: Some server error 
+    *         description: Internal server error
     */
-    .get(findAllActivities)
-    /**
-    * @openapi
-    * /api/activities:
-    *   post:
-    *     summary: Create a new activity
-    *     tags: [Activities]
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/Activity'
-    *     responses:
-    *       201:
-    *         description: The created activity.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/Activity'
-    *       500:
-    *         description: Some server error 
-    */
-    .post(createActivity);
+    .get(findAllActivities);
 
 router
     .route('/:id')
     /**
-    * @openapi
-    * /api/activities/{id}:
+    * @swagger
+    * /api/user-activities/{id}:
     *   get:
-    *     summary: Get an activity by ID
-    *     tags: [Activities]
+    *     summary: Retrieve a specific user activity
+    *     description: Fetches the details of a specific user activity by its ID.
+    *     tags: [User Activities]
     *     parameters:
     *       - in: path
     *         name: id
     *         schema:
     *           type: integer
     *         required: true
-    *         description: The activity ID
+    *         description: The ID of the user activity to retrieve
     *     responses:
     *       200:
-    *         description: The activity response by ID
+    *         description: The requested user activity.
     *         content:
     *           application/json:
     *             schema:
-    *               $ref: '#/components/schemas/Activity'
+    *               $ref: '#/components/schemas/UserActivity'
     *       404:
-    *         description: The activity was not found
+    *         description: Activity not found
+    *       500:
+    *         description: Internal server error
     */
-    .get(findActivityById)
-    /**
-    * @openapi
-    * /api/activities/{id}:
-    *   delete:
-    *     summary: Delete an activity by ID
-    *     tags: [Activities]
-    *     parameters:
-    *       - in: path
-    *         name: id
-    *         schema:
-    *           type: integer
-    *         required: true
-    *         description: The activity ID
-    *     responses:
-    *       200:
-    *         description: Activity deleted
-    *       404:
-    *         description: The activity was not found
-    */
-    .delete(deleteActivity);
-
-    router
-    .route("/user/:userId")
-    .get(findActivityByUserId);
-
+    .get(findActivityById);
 
 module.exports = router;
