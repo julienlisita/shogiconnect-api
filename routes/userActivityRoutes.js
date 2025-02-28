@@ -1,7 +1,8 @@
 const express = require('express');
 const {
-    findAllActivities,
-    findActivityById,
+    findAllUserActivities,
+    findUserActivityById,
+    findUserActivityByUserId,
 } = require('../controllers/userActivityController');
 
 const router = express.Router();
@@ -51,10 +52,10 @@ router
     .route('/')
     /**
     * @swagger
-    * /api/user-activities:
+    * /api/userActivities:
     *   get:
     *     summary: Retrieve all user activities
-    *     description: Fetches all activities performed by regular users.
+    *     description: Fetches all activities performed by users.
     *     tags: [User Activities]
     *     responses:
     *       200:
@@ -68,13 +69,13 @@ router
     *       500:
     *         description: Internal server error
     */
-    .get(findAllActivities);
+    .get(findAllUserActivities);
 
 router
     .route('/:id')
     /**
     * @swagger
-    * /api/user-activities/{id}:
+    * /api/userActivities/{id}:
     *   get:
     *     summary: Retrieve a specific user activity
     *     description: Fetches the details of a specific user activity by its ID.
@@ -98,6 +99,38 @@ router
     *       500:
     *         description: Internal server error
     */
-    .get(findActivityById);
+    .get(findUserActivityById);
+
+router
+    .route('/user/:userId')
+    /**
+    * @swagger
+    * /api/userActivities/user/{userId}:
+    *   get:
+    *     summary: Retrieve activities of a specific user
+    *     description: Fetches all activities performed by a specific user, identified by their user ID.
+    *     tags: [User Activities]
+    *     parameters:
+    *       - in: path
+    *         name: userId
+    *         schema:
+    *           type: integer
+    *         required: true
+    *         description: The ID of the user whose activities are to be retrieved
+    *     responses:
+    *       200:
+    *         description: A list of activities performed by the specified user.
+    *         content:
+    *           application/json:
+    *             schema:
+    *               type: array
+    *               items:
+    *                 $ref: '#/components/schemas/UserActivity'
+    *       404:
+    *         description: No activities found for the user
+    *       500:
+    *         description: Internal server error
+    */
+    .get(findUserActivityByUserId);
 
 module.exports = router;

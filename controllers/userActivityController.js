@@ -1,7 +1,7 @@
 const { UserActivity } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 
-const findAllActivities = async (req, res) => {
+const findAllUserActivities = async (req, res) => {
     try {
         const result = await UserActivity.findAll();
         return res.json({message: "Activités trouvées", data: result });
@@ -10,7 +10,7 @@ const findAllActivities = async (req, res) => {
     }
 };
 
-const findActivityById = async (req, res) => {
+const findUserActivityById = async (req, res) => {
     try {
         const result = await UserActivity.findByPk(req.params.id);
         if (!result) {
@@ -22,7 +22,7 @@ const findActivityById = async (req, res) => {
     }
 };
 
-const findActivityByUserId = async (req, res) => {
+const findUserActivityByUserId = async (req, res) => {
     try {
         const { userId } = req.params;
 
@@ -40,4 +40,4 @@ const findActivityByUserId = async (req, res) => {
     }
 };
 
-module.exports = { findAllActivities, findActivityById, findActivityByUserId };
+module.exports = { findAllUserActivities, findUserActivityById, findUserActivityByUserId };
