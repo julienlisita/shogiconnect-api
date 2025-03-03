@@ -72,36 +72,6 @@ router
     .get(findAllAdminActivities);
 
 router
-    .route('/:id')
-    /**
-    * @swagger
-    * /api/activities/{id}:
-    *   get:
-    *     summary: Retrieve a specific admin activity
-    *     description: Fetches the details of a specific admin activity by its ID.
-    *     tags: [Admin Activities]
-    *     parameters:
-    *       - in: path
-    *         name: id
-    *         schema:
-    *           type: integer
-    *         required: true
-    *         description: The ID of the activity to retrieve
-    *     responses:
-    *       200:
-    *         description: The requested admin activity.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/Activity'
-    *       404:
-    *         description: Activity not found
-    *       500:
-    *         description: Internal server error
-    */
-    .get(findAdminActivityById);
-
-router
     .route("/user/:userId")
     /**
     * @swagger
@@ -132,5 +102,35 @@ router
     *         description: Internal server error
     */
     .get(findAdminActivityByAdminId);
+
+router
+    .route('/:id')
+    /**
+    * @swagger
+    * /api/activities/{id}:
+    *   get:
+    *     summary: Retrieve a specific admin activity
+    *     description: Fetches the details of a specific admin activity by its ID.
+    *     tags: [Admin Activities]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: integer
+    *         required: true
+    *         description: The ID of the activity to retrieve
+    *     responses:
+    *       200:
+    *         description: The requested admin activity.
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/Activity'
+    *       404:
+    *         description: Activity not found
+    *       500:
+    *         description: Internal server error
+    */
+    .get(findAdminActivityById);
 
 module.exports = router;

@@ -72,36 +72,6 @@ router
     .get(findAllUserActivities);
 
 router
-    .route('/:id')
-    /**
-    * @swagger
-    * /api/userActivities/{id}:
-    *   get:
-    *     summary: Retrieve a specific user activity
-    *     description: Fetches the details of a specific user activity by its ID.
-    *     tags: [User Activities]
-    *     parameters:
-    *       - in: path
-    *         name: id
-    *         schema:
-    *           type: integer
-    *         required: true
-    *         description: The ID of the user activity to retrieve
-    *     responses:
-    *       200:
-    *         description: The requested user activity.
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/UserActivity'
-    *       404:
-    *         description: Activity not found
-    *       500:
-    *         description: Internal server error
-    */
-    .get(findUserActivityById);
-
-router
     .route('/user/:userId')
     /**
     * @swagger
@@ -132,5 +102,36 @@ router
     *         description: Internal server error
     */
     .get(findUserActivityByUserId);
+
+router
+    .route('/:id')
+    /**
+    * @swagger
+    * /api/userActivities/{id}:
+    *   get:
+    *     summary: Retrieve a specific user activity
+    *     description: Fetches the details of a specific user activity by its ID.
+    *     tags: [User Activities]
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         schema:
+    *           type: integer
+    *         required: true
+    *         description: The ID of the user activity to retrieve
+    *     responses:
+    *       200:
+    *         description: The requested user activity.
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/UserActivity'
+    *       404:
+    *         description: Activity not found
+    *       500:
+    *         description: Internal server error
+    */
+    .get(findUserActivityById);
+
 
 module.exports = router;
