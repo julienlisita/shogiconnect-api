@@ -24,6 +24,30 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      totalScheduledGamesCreated: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      totalScheduledGamesJoined: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      totalTopicsCreated: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      totalCommentsCreated: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      lastUpdated: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
       UserId: {
         type: DataTypes.INTEGER,
         unique: true,
