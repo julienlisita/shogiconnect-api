@@ -11,31 +11,34 @@ const updateSiteStats = async (action) => {
         switch (action) {
             case "ADD_USER":
                 siteStat.totalUsers += 1;
+                siteStat.activeUsers += 1;
                 break;
             case "DELETE_USER":
-                siteStat.totalUsers = Math.max(0, siteStat.totalUsers - 1);
+                siteStat.activeUsers = Math.max(0, siteStat.activeUsers - 1);
                 break;
             case "ADD_TOPIC":
                 siteStat.totalTopics += 1;
+                siteStat.activeTopics += 1;
                 break;
             case "DELETE_TOPIC":
-                siteStat.totalTopics = Math.max(0, siteStat.totalTopics - 1);
+                siteStat.activeTopics = Math.max(0, siteStat.activeTopics - 1);
                 break;
             case "ADD_COMMENT":
                 siteStat.totalComments += 1;
+                siteStat.activeComments += 1;
                 break;
             case "DELETE_COMMENT":
-                siteStat.totalComments = Math.max(0, siteStat.totalComments - 1);
+                siteStat.activeComments = Math.max(0, siteStat.activeComments - 1);
                 break;
             case "ADD_SCHEDULED_GAME":
                 siteStat.totalScheduledGames += 1;
+                siteStat.activeScheduledGames += 1;
                 break;
             case "DELETE_SCHEDULED_GAME":
-                siteStat.totalScheduledGames = Math.max(0, siteStat.totalScheduledGames - 1);
+                siteStat.activeScheduledGames = Math.max(0, siteStat.activeScheduledGames - 1);
                 break;
         }
 
-        siteStat.lastUpdated = new Date();
         await siteStat.save();
     } catch (error) {
         console.error("Erreur lors de la mise à jour des statistiques du site :", error);
