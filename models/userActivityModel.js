@@ -10,41 +10,40 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       activity_type: {
+        type: DataTypes.STRING, // Ex: "CREATE_TOPIC", "POST_COMMENT", etc.
+        allowNull: false,
+      },
+      related_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true, // Peut être null si l'élément n'existe plus
       },
-      description: {
+      related_type: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true, // Ex: "Topic", "Comment", etc.
       },
-      UserId: {
+      related_name: {
+        type: DataTypes.STRING,
+        allowNull: true, // Nom/titre de l'élément lié
+      },
+      user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Users", // Nom de la table des utilisateurs
+          model: "Users",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      related_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      related_type: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
     },
     {
-      updatedAt: true,
-      createdAt: true,
+      timestamps: true, // Ajoute createdAt et updatedAt automatiquement
     }
   );
 
   UserActivity.associate = (models) => {
     UserActivity.belongsTo(models.User, {
-      foreignKey: 'UserId',
+      foreignKey: 'user_id',
       allowNull: false,
     });
   };

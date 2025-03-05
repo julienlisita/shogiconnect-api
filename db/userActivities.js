@@ -1,578 +1,723 @@
 const userActivities = [
     {
       id: 1,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 1, // L'utilisateur qui crée le topic
+      activity_type: "CREATE_TOPIC", // Type d'activité : Création d'un topic
+      user_id: 1, // L'utilisateur qui crée le topic
       related_id: 1, // L'ID du topic
       related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      related_name: null, // Nom/titre du topic (à remplir si disponible)
     },
     {
       id: 2,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 12, // L'utilisateur qui crée le topic
-      related_id: 2, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 12,
+      related_id: 2,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 3,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 7, // L'utilisateur qui crée le topic
-      related_id: 3, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 7,
+      related_id: 3,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 4,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 9, // L'utilisateur qui crée le topic
-      related_id: 4, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 9,
+      related_id: 4,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 5,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 15, // L'utilisateur qui crée le topic
-      related_id: 5, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 15,
+      related_id: 5,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 6,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 20, // L'utilisateur qui crée le topic
-      related_id: 6, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 20,
+      related_id: 6,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 7,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 25, // L'utilisateur qui crée le topic
-      related_id: 7, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 25,
+      related_id: 7,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 8,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 30, // L'utilisateur qui crée le topic
-      related_id: 8, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 30,
+      related_id: 8,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 9,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 35, // L'utilisateur qui crée le topic
-      related_id: 9, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 35,
+      related_id: 9,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 10,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 40, // L'utilisateur qui crée le topic
-      related_id: 10, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 40,
+      related_id: 10,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 11,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 5, // L'utilisateur qui crée le topic
-      related_id: 11, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 5,
+      related_id: 11,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 12,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 6, // L'utilisateur qui crée le topic
-      related_id: 12, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 6,
+      related_id: 12,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 13,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 18, // L'utilisateur qui crée le topic
-      related_id: 13, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 18,
+      related_id: 13,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 14,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 14, // L'utilisateur qui crée le topic
-      related_id: 14, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 14,
+      related_id: 14,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 15,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 10, // L'utilisateur qui crée le topic
-      related_id: 15, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 10,
+      related_id: 15,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 16,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 45, // L'utilisateur qui crée le topic
-      related_id: 16, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 45,
+      related_id: 16,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 17,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 2, // L'utilisateur qui crée le topic
-      related_id: 17, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 2,
+      related_id: 17,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 18,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 3, // L'utilisateur qui crée le topic
-      related_id: 18, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 3,
+      related_id: 18,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 19,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 19, // L'utilisateur qui crée le topic
-      related_id: 19, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 19,
+      related_id: 19,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 20,
-      activity_type: 1, // Type d'activité : Création d'un topic
-      UserId: 11, // L'utilisateur qui crée le topic
-      related_id: 20, // L'ID du topic
-      related_type: "topic", // Type de l'objet lié : topic
-      description: "a créé un topic",
+      activity_type: "CREATE_TOPIC",
+      user_id: 11,
+      related_id: 20,
+      related_type: "topic",
+      related_name: null,
     },
     {
       id: 21,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 10, // L'utilisateur qui commente
+      activity_type: "CREATE_COMMENT", // Type d'activité : Commentaire sur un topic
+      user_id: 10, // L'utilisateur qui commente
       related_id: 1, // L'ID du commentaire
       related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      related_name: null, // Nom/titre du commentaire (à remplir si disponible)
     },
-
     {
       id: 22,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 25, // L'utilisateur qui commente
-      related_id: 2, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 25,
+      related_id: 2,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 23,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 18, // L'utilisateur qui commente
-      related_id: 3, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 18,
+      related_id: 3,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 24,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 5, // L'utilisateur qui commente
-      related_id: 4, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 5,
+      related_id: 4,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 25,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 12, // L'utilisateur qui commente
-      related_id: 5, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 12,
+      related_id: 5,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 26,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 23, // L'utilisateur qui commente
-      related_id: 6, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 23,
+      related_id: 6,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 27,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 7, // L'utilisateur qui commente
-      related_id: 7, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 7,
+      related_id: 7,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 28,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 14, // L'utilisateur qui commente
-      related_id: 8, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 14,
+      related_id: 8,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 29,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 32, // L'utilisateur qui commente
-      related_id: 9, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 32,
+      related_id: 9,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 30,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 16, // L'utilisateur qui commente
-      related_id: 10, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 16,
+      related_id: 10,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 31,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 28, // L'utilisateur qui commente
-      related_id: 11, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 28,
+      related_id: 11,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 32,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 21, // L'utilisateur qui commente
-      related_id: 12, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 21,
+      related_id: 12,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 33,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 11, // L'utilisateur qui commente
-      related_id: 13, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 11,
+      related_id: 13,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 34,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 24, // L'utilisateur qui commente
-      related_id: 14, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 24,
+      related_id: 14,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 35,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 6, // L'utilisateur qui commente
-      related_id: 15, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 6,
+      related_id: 15,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 36,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 17, // L'utilisateur qui commente
-      related_id: 16, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 17,
+      related_id: 16,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 37,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 7, // L'utilisateur qui commente
-      related_id: 17, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 7,
+      related_id: 17,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 38,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 33, // L'utilisateur qui commente
-      related_id: 18, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 33,
+      related_id: 18,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 39,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 9, // L'utilisateur qui commente
-      related_id: 19, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 9,
+      related_id: 19,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 40,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 13, // L'utilisateur qui commente
-      related_id: 20, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 13,
+      related_id: 20,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 41,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 2, // L'utilisateur qui commente
+      activity_type: "CREATE_COMMENT", // Type d'activité : Commentaire sur un topic
+      user_id: 2, // L'utilisateur qui commente
       related_id: 21, // L'ID du commentaire
       related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      related_name: null, // Nom/titre du commentaire (à remplir si disponible)
     },
-
     {
       id: 42,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 4, // L'utilisateur qui commente
-      related_id: 22, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 4,
+      related_id: 22,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 43,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 29, // L'utilisateur qui commente
-      related_id: 23, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 29,
+      related_id: 23,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 44,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 5, // L'utilisateur qui commente
-      related_id: 24, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 5,
+      related_id: 24,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 45,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 26, // L'utilisateur qui commente
-      related_id: 25, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 26,
+      related_id: 25,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 46,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 19, // L'utilisateur qui commente
-      related_id: 26, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 19,
+      related_id: 26,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 47,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 8, // L'utilisateur qui commente
-      related_id: 27, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 8,
+      related_id: 27,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 48,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 3, // L'utilisateur qui commente
-      related_id: 28, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 3,
+      related_id: 28,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 49,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 27, // L'utilisateur qui commente
-      related_id: 29, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 27,
+      related_id: 29,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 50,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 20, // L'utilisateur qui commente
-      related_id: 30, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 20,
+      related_id: 30,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 51,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 15, // L'utilisateur qui commente
-      related_id: 31, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 15,
+      related_id: 31,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 52,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 31, // L'utilisateur qui commente
-      related_id: 32, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 31,
+      related_id: 32,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 53,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 22, // L'utilisateur qui commente
-      related_id: 33, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 22,
+      related_id: 33,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 54,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 9, // L'utilisateur qui commente
-      related_id: 34, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 9,
+      related_id: 34,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 55,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 34, // L'utilisateur qui commente
-      related_id: 35, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 34,
+      related_id: 35,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 56,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 2, // L'utilisateur qui commente
-      related_id: 36, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 2,
+      related_id: 36,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 57,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 35, // L'utilisateur qui commente
-      related_id: 37, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 35,
+      related_id: 37,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 58,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 10, // L'utilisateur qui commente
-      related_id: 38, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 10,
+      related_id: 38,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 59,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 8, // L'utilisateur qui commente
-      related_id: 39, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 8,
+      related_id: 39,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 60,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 36, // L'utilisateur qui commente
-      related_id: 40, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 36,
+      related_id: 40,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 61,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 17, // L'utilisateur qui commente
+      activity_type: "CREATE_COMMENT", // Type d'activité : Commentaire sur un topic
+      user_id: 17, // L'utilisateur qui commente
       related_id: 41, // L'ID du commentaire
       related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      related_name: null, // Nom/titre du commentaire (à remplir si disponible)
     },
-
     {
       id: 62,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 12, // L'utilisateur qui commente
-      related_id: 42, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 12,
+      related_id: 42,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 63,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 19, // L'utilisateur qui commente
-      related_id: 43, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 19,
+      related_id: 43,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 64,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 23, // L'utilisateur qui commente
-      related_id: 44, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 23,
+      related_id: 44,
+      related_type: "comment",
+      related_name: null,
     },
-
     {
       id: 65,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 6, // L'utilisateur qui commente
-      related_id: 45, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 6,
+      related_id: 45,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 66,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 15, // L'utilisateur qui commente
-      related_id: 46, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 15,
+      related_id: 46,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 67,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 39, // L'utilisateur qui commente
-      related_id: 47, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 39,
+      related_id: 47,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 68,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 25, // L'utilisateur qui commente
-      related_id: 48, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 25,
+      related_id: 48,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 69,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 40, // L'utilisateur qui commente
-      related_id: 49, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 40,
+      related_id: 49,
+      related_type: "comment",
+      related_name: null,
     },
     {
       id: 70,
-      activity_type: 2, // Type d'activité : Commentaire sur un topic
-      UserId: 11, // L'utilisateur qui commente
-      related_id: 50, // L'ID du commentaire
-      related_type: "comment", // Type de l'objet lié : commentaire
-      description: "a créé un commentaire",
+      activity_type: "CREATE_COMMENT",
+      user_id: 11,
+      related_id: 50,
+      related_type: "comment",
+      related_name: null,
+    },
+    {
+      id: 71,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 1, // OrganizerId du premier jeu
+      related_id: 1, // ID du premier jeu
+      related_type: "scheduled_game",
+      related_name: null, // related_name est null
+    },
+    {
+      id: 72,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 2,
+      related_id: 2,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 73,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 3,
+      related_id: 3,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 74,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 4,
+      related_id: 4,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 75,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 5,
+      related_id: 5,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 76,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 6,
+      related_id: 6,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 77,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 7,
+      related_id: 7,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 78,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 8,
+      related_id: 8,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 79,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 9,
+      related_id: 9,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 80,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 10,
+      related_id: 10,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 81,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 11,
+      related_id: 11,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 82,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 12,
+      related_id: 12,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 83,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 13,
+      related_id: 13,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 84,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 14,
+      related_id: 14,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 85,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 15,
+      related_id: 15,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 86,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 16,
+      related_id: 16,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 87,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 17,
+      related_id: 17,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 88,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 18,
+      related_id: 18,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 89,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 19,
+      related_id: 19,
+      related_type: "scheduled_game",
+      related_name: null,
+    },
+    {
+      id: 90,
+      activity_type: "CREATE_SCHEDULED_GAME",
+      user_id: 20,
+      related_id: 20,
+      related_type: "scheduled_game",
+      related_name: null,
     },
   ];
   
