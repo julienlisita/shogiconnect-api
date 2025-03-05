@@ -13,6 +13,7 @@ const UserActivityModel = require('../models/userActivityModel');
 const ScheduledGameModel = require('../models/scheduledGameModel');
 const AdminActivityModel = require('../models/AdminActivityModel.js');
 const AdminStatModel = require('../models/AdminStatModel.js');
+const SiteStatsModel = require('../models/siteStatModel.js')
 
 const mockUsers = require('./users');
 const mockCategories = require('./categories');
@@ -42,6 +43,7 @@ const models = {
     ScheduledGame : ScheduledGameModel(sequelize),
     AdminActivity : AdminActivityModel(sequelize),
     AdminStat : AdminStatModel(sequelize),
+    SiteStat : SiteStatsModel(sequelize),
 };
 
 // Initialisation des associations
@@ -92,6 +94,20 @@ sequelize.sync({ force: resetDb })
             models.ScheduledGame.create(game)
                 .catch(error => console.log(error))
         ));
+
+        await models.SiteStat.bulkCreate([
+            { 
+                id: 1, 
+                totalUsers: 50, 
+                activeUsers: 50,
+                totalTopics: 20, 
+                activeTopics: 20,
+                totalComments: 50, 
+                activeComments: 50,
+                totalScheduledGames: 20,
+                activeScheduledGames: 20
+             },
+        ]);
     })
     .catch(error => {
         console.log(error);
