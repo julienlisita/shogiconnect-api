@@ -2,6 +2,10 @@ const { Comment, Topic, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
+const { updateUserStats } = require('../services/userStatsService');
+const { updateSiteStats } = require("../services/siteStatsService");
+
+const ROLE_USER = 1;
 const ROLE_ADMIN = 2;
 
 const findAllComments = async (req, res) => {
@@ -30,7 +34,6 @@ const findCommentByPk = async (req, res) => {
         errorHandler(error, res);
     }
 }
-
 
 const createComment =  async (req, res) => {
     try
@@ -66,6 +69,8 @@ const createComment =  async (req, res) => {
 
         // Mettre à jour les statistiques de l'utilisateur
         await updateUserStats(userId, 'CREATE_COMMENT');
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('CREATE_COMMENT');
    
     }
     catch(error) 
@@ -120,6 +125,8 @@ const deleteComment = async (req, res) => {
         }
         // Mettre à jour les statistiques de l'admin
         await updateAdminStats(req.user.id, 'DELETE_COMMENT');
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('DELETE_COMMENT');
     }
     catch(error)
     {

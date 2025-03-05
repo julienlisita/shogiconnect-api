@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService'); 
+const { updateSiteStats } = require("../services/siteStatsService");
 const ROLE_ADMIN = 2;
 
 // Fonction pour récupérer la liste de tous les utilisateurs
@@ -41,6 +42,10 @@ const createUser = async (req, res) => {
         const result = await User.create(req.body)
 
         res.json({ message: `Utilisateur créé`, data: result })
+
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('CREATE_USER');
+
     } catch (error) {
         errorHandler(error, res)
     }
@@ -100,6 +105,8 @@ const deleteUser = async (req, res) => {
             });
             // Mettre à jour les statistiques de l'admin
             await updateAdminStats(req.user.id, 'DELETE_USER');
+            // Mettre à jour les statistique du site    
+            await updateSiteStats('DELETE_USER');
         }
         
         res.status(200).json({ message: 'Utilisateur supprimé', data: result })

@@ -2,6 +2,9 @@ const { Topic, Category, Comment, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
+const { updateSiteStats } = require("../services/siteStatsService");
+
+const ROLE_USER = 1;
 const ROLE_ADMIN = 2;
 
 const findAllTopics = async (req, res) => {
@@ -86,6 +89,8 @@ const createTopic =  async (req, res) => {
 
         // Mettre à jour les statistiques de le l'utilisateur
         await updateUserStats(req.user.id, 'CREATE_TOPIC');
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('CREATE_TOPIC');
     }
     catch(error) 
     {
@@ -138,7 +143,9 @@ const deleteTopic = async (req, res) => {
         }
         // Mettre à jour les statistiques de l'admin
         await updateAdminStats(req.user.id, 'DELETE_TOPIC');
-    }
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('DELETE_TOPIC');
+}
     catch(error)
     {
         errorHandler(error, res);

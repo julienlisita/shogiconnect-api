@@ -2,6 +2,8 @@ const { ScheduledGame, User } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
+const { updateSiteStats } = require("../services/siteStatsService");
+const { updateUserStats } = require("../services/userStatsService");
 const ROLE_ADMIN = 2;
 
 // Récupérer la liste des parties créées
@@ -62,6 +64,8 @@ const createScheduledGame = async (req, res) => {
 
         // Mettre à jour les statistiques de l'utilisateur
         await updateUserStats(OrganizerId, 'CREATE_SCHEDULED_GAME');
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('CREATE_SCHEDULED_GAME');
     } catch (error) {
         errorHandler(error, res);
     }
@@ -121,6 +125,8 @@ const deleteScheduledGame = async (req, res) => {
         }
         // Mettre à jour les statistiques de l'admin
         await updateAdminStats(req.user.id, 'DELETE_SCHEDULED_GAME');
+        // Mettre à jour les statistique du site    
+        await updateSiteStats('DELETE_SCHEDULED_GAME');
 
     } catch (error) {
         errorHandler(error, res);
