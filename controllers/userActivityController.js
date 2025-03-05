@@ -27,7 +27,7 @@ const findUserActivityByUserId = async (req, res) => {
         const { userId } = req.params;
 
         const activities = await UserActivity.findAll({
-            where: { UserId: userId },
+            where: { user_id: userId },
         });
 
         if (!activities.length) {

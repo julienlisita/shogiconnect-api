@@ -36,17 +36,37 @@ const createComment =  async (req, res) => {
     try
     {
         const { content, topicId, userId } = req.body;
-        const topic = await Topic.findByPk(topicId);
+       
+        // Vérifier si l'utilisateur existe
         const user = await User.findByPk(userId);
-        if (topic && user) 
-        {
-            const result = await Comment.create({ content, TopicId: topicId, UserId: userId });
-            res.status(201).json({message: `Commentaire créé`, data: result});
-        } 
-        else 
-        {
-            return res.status(400).json({ error: 'Topic ou utilisateur invalide' });
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
+
+        // Vérifier si le topic existe
+        const topic = await Topic.findByPk(topicId);
+        if (!topic) {
+            return res.status(404).json({ error: 'Topic non trouvé' });
+        }
+
+        // Créer le commentaire
+        const result = await Comment.create({ content, TopicId: topicId, UserId: userId });
+
+        // Répondre avec le commentaire créé
+        res.status(201).json({message: `Commentaire créé`, data: result});
+
+            // Enregistrer l'activité de création du commentaire
+        await UserActivity.create({
+            activity_type: 'CREATE_COMMENT',
+            related_id: result.id, // ID du commentaire créé
+            related_type: 'comment',
+            related_name: null, // related_name est null
+            user_id: userId, // ID de l'utilisateur qui a créé le commentaire
+        });
+
+        // Mettre à jour les statistiques de l'utilisateur
+        await updateUserStats(userId, 'CREATE_COMMENT');
+   
     }
     catch(error) 
     {

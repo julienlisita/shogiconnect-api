@@ -31,16 +31,37 @@ const findScheduledGameById = async (req, res) => {
 const createScheduledGame = async (req, res) => {
     try {
         const { status = "disponible", level, rendezVousAt } = req.body;
+        const OrganizerId = req.user.id; // ID de l'utilisateur authentifié
 
+        // Vérifier si l'utilisateur existe
+        const user = await User.findByPk(OrganizerId);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+
+        // Créer le scheduled game
         const result = await ScheduledGame.create({ 
-            OrganizerId: req.user.id, // Utiliser l'ID de l'utilisateur authentifié
+            OrganizerId, // Utiliser l'ID de l'utilisateur authentifié
             ParticipantId: null, 
             status, 
             level, 
             rendezVousAt 
         });
 
+        // Répondre avec le scheduled game créé
         res.status(201).json({ message: 'Jeu créé', data: result });
+
+        // Enregistrer l'activité de création du scheduled game
+        await UserActivity.create({
+            activity_type: 'CREATE_SCHEDULED_GAME',
+            related_id: result.id,
+            related_type: 'scheduled_game',
+            related_name: null,
+            user_id: OrganizerId,
+        });
+
+        // Mettre à jour les statistiques de l'utilisateur
+        await updateUserStats(OrganizerId, 'CREATE_SCHEDULED_GAME');
     } catch (error) {
         errorHandler(error, res);
     }

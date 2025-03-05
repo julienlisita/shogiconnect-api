@@ -56,17 +56,36 @@ const createTopic =  async (req, res) => {
     try
     {
         const { title, content, categoryId, userId } = req.body;
+        
+        // Vérifier si la categorie existe
         const category = await Category.findByPk(categoryId);
-        const user = await User.findByPk(userId);
-        if (category && user) 
-        {
-            const result = await Topic.create({  title, content, CategoryId: categoryId, UserId: userId });
-            res.status(201).json({message: `Topic créé`, data: result});
-        } 
-        else 
-        {
-            return res.status(400).json({ error: 'Catégorie ou utilisateur invalide' });
+        if (!category) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
+
+        // Vérifier si l'utilisateur existe
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+        
+        // Créer le topic
+        const result = await Topic.create({  title, content, CategoryId: categoryId, UserId: userId });
+
+         // Répondre avec le topic créé
+        res.status(201).json({message: `Topic créé`, data: result});
+
+        // Enregistrer l'activité
+        await UserActivity.create({
+            activity_type: 'CREATE_TOPIC',
+            related_id: result.id,
+            related_type: 'Topic',
+            related_name: null, 
+            user_id: userId
+        });
+
+        // Mettre à jour les statistiques de le l'utilisateur
+        await updateUserStats(req.user.id, 'CREATE_TOPIC');
     }
     catch(error) 
     {
