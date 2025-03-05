@@ -88,6 +88,42 @@ router
     .get(findAllUsers);
 
 router
+    .route('/me/avatar')
+    /**
+    * @openapi
+    * /api/users/me/avatar:
+    *   patch:
+    *     summary: Update the avatar of the currently authenticated user
+    *     tags: [Users]
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         multipart/form-data:
+    *           schema:
+    *             type: object
+    *             properties:
+    *               avatar:
+    *                 type: string
+    *                 format: binary
+    *     responses:
+    *       200:
+    *         description: The avatar was updated successfully
+    *         content:
+    *           application/json:
+    *             schema:
+    *               type: object
+    *               properties:
+    *                 avatar:
+    *                   type: string
+    *                   description: The URL of the user's updated avatar
+    *       400:
+    *         description: No file was uploaded or the file type is incorrect
+    *       500:
+    *         description: Internal server error
+    */
+    .patch(protect, upload.single('avatar'), updateAvatar);
+
+router
     .route('/me')
     /**
     * @openapi
