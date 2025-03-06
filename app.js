@@ -28,6 +28,7 @@ const userActivityRouter = require('./routes/userActivityRoutes')
 const scheduledGameRouter = require('./routes/scheduledGameRoutes');
 const adminActivityRouter = require('./routes/adminActivityRoutes');
 const adminStatRouter = require('./routes/adminStatRoutes');
+const siteStatsRouter = require('./routes/siteStatRoutes');
 
 app.get('/', (req, res) => {
     res.json({ message: 'Homepage' })
@@ -43,6 +44,7 @@ app.use('/api/userActivities', userActivityRouter);
 app.use('/api/adminStats', adminStatRouter);
 app.use('/api/adminActivities', adminActivityRouter);
 app.use('/api/scheduledGames', scheduledGameRouter);
+app.use('/api/siteStats', siteStatsRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const swagger = require('./configs/swagger');
