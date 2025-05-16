@@ -1,6 +1,5 @@
 {
   "build": {
-    "root": "shogiconnect-api"
-  },
-  "start": "npm start"
+    "path": "shogiconnect-api"
+  }
 }
