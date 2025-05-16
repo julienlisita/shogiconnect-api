@@ -1,0 +1,2 @@
+[phases.install]
+command = "npm install"
