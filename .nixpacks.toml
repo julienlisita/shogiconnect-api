@@ -1,2 +1,13 @@
+[phases.setup]
+nixPkgs = ["nodejs"]
+
 [phases.install]
-command = "npm install"
+workingDirectory = "shogoconnect-api"
+cmds = ["npm ci"]
+
+[phases.build]
+workingDirectory = "shogoconnect-api"
+cmds = []
+
+[start]
+cmd = "node shogoconnect-api/index.js"

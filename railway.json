@@ -1,0 +1,6 @@
+{
+  "build": {
+    "root": "shogiconnect-api"
+  },
+  "start": "npm start"
+}
