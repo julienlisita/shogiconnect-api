@@ -11,7 +11,7 @@ require("./db/sequelizeSetup");
 app
     .use(express.json())
     .use(cookieParser())
-    .use(cors({ origin: 'http://localhost:5173', credentials: true}));
+    .use(cors({ origin: ['https://shogiconnect.netlify.app','http://localhost:5173'], credentials: true}));
 
 if (process.env.NODE_ENV === "development") {
     const morgan = require('morgan')
