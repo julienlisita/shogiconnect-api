@@ -1,4 +1,4 @@
-const { ScheduledGame, User } = require("../db/sequelizeSetup");
+const { ScheduledGame, User, UserActivity } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
