@@ -1,5 +1,3 @@
-// sequelizeSetup.js
-
 const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 
@@ -46,7 +44,7 @@ const models = {
     SiteStat : SiteStatsModel(sequelize),
 };
 
-// Initialisation des associations
+// Associations
 Object.keys(models).forEach(modelName => {
     if (models[modelName].associate) {
         models[modelName].associate(models);
@@ -54,67 +52,71 @@ Object.keys(models).forEach(modelName => {
 });
 
 const resetDb = process.env.NODE_ENV === "development";
+
+// Synchronisation des tables (sans forcer la réinitialisation en prod)
 sequelize.sync({ force: resetDb })
     .then(async () => {
-        
-        await models.Role.bulkCreate([
-            { id: 1, label: "user" },
-            { id: 2, label: "admin" },
-        ]);
+        // Pour la seed, on ne veut pas toujours insérer les mocks, seulement si la base est vide
 
-        await Promise.all(mockCategories.map(category => 
-            models.Category.create(category)
-                .catch(error => console.log(error))
-        ));
+        // Vérifier si la table Role est vide, par exemple
+        const rolesCount = await models.Role.count();
 
-        await Promise.all(mockUsers.map(async user => {
-            const hash = await bcrypt.hash(user.password, 10);
-            user.password = hash;
-            return models.User.create(user)
-                .catch(error => console.log(error));
-        }));
-        await Promise.all(mockTopics.map(topic => 
-            models.Topic.create(topic)
-                .catch(error => console.log(error))
-        ));
-        await Promise.all(mockComments.map(comment => 
-            models.Comment.create(comment)
-                .catch(error => console.log(error))
-        ));
+        if (rolesCount === 0) {
+            console.log("Base vide, insertion des données initiales...");
 
-        await Promise.all(mockUserStats.map(userStat => 
-            models.UserStat.create(userStat)
-                .catch(error => console.log(error))
-        ));
-        await Promise.all(mockUserActivities.map(userActivity => 
-            models.UserActivity.create(userActivity)
-                .catch(error => console.log(error))
-        ));
-        await Promise.all(mockScheduledGames.map(game => 
-            models.ScheduledGame.create(game)
-                .catch(error => console.log(error))
-        ));
+            await models.Role.bulkCreate([
+                { id: 1, label: "user" },
+                { id: 2, label: "admin" },
+            ]);
 
-        await models.SiteStat.bulkCreate([
-            { 
-                id: 1, 
-                totalUsers: 50, 
-                activeUsers: 50,
-                totalTopics: 20, 
-                activeTopics: 20,
-                totalComments: 50, 
-                activeComments: 50,
-                totalScheduledGames: 20,
-                activeScheduledGames: 20
-             },
-        ]);
+            await Promise.all(mockCategories.map(category => 
+                models.Category.create(category).catch(console.log)
+            ));
+
+            await Promise.all(mockUsers.map(async user => {
+                const hash = await bcrypt.hash(user.password, 10);
+                user.password = hash;
+                return models.User.create(user).catch(console.log);
+            }));
+
+            await Promise.all(mockTopics.map(topic => 
+                models.Topic.create(topic).catch(console.log)
+            ));
+            await Promise.all(mockComments.map(comment => 
+                models.Comment.create(comment).catch(console.log)
+            ));
+            await Promise.all(mockUserStats.map(userStat => 
+                models.UserStat.create(userStat).catch(console.log)
+            ));
+            await Promise.all(mockUserActivities.map(userActivity => 
+                models.UserActivity.create(userActivity).catch(console.log)
+            ));
+            await Promise.all(mockScheduledGames.map(game => 
+                models.ScheduledGame.create(game).catch(console.log)
+            ));
+
+            await models.SiteStat.bulkCreate([
+                { 
+                    id: 1, 
+                    totalUsers: 50, 
+                    activeUsers: 50,
+                    totalTopics: 20, 
+                    activeTopics: 20,
+                    totalComments: 50, 
+                    activeComments: 50,
+                    totalScheduledGames: 20,
+                    activeScheduledGames: 20
+                 },
+            ]);
+
+        } else {
+            console.log("Base déjà initialisée, pas d'insertion de données.");
+        }
     })
-    .catch(error => {
-        console.log(error);
-    });
+    .catch(error => console.log(error));
 
 sequelize.authenticate()
 .then(() => console.log('La connexion à la base de données a bien été établie.'))
 .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
 
-module.exports = { sequelize, ...models};
+module.exports = { sequelize, ...models };
