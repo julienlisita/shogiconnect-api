@@ -49,12 +49,12 @@ const checkAuth = async (req, res) => {
             return res.status(200).json({ isLoggedIn: false });
         }
 
-        res.status(200).json({ message: "authentification réussie" ,isLoggedIn: true })
+        return res.status(200).json({ message: "authentification réussie" ,isLoggedIn: true })
     
     } catch (error) {
         console.error('Erreur lors de la vérification de l\'authentification:', error);
         console.log("autre erreur")
-        res.status(200).json({ isLoggedIn: false });
+        return res.status(200).json({ isLoggedIn: false });
     }
 };
 
@@ -64,7 +64,7 @@ const logout = (req, res) => {
     // - AsyncStorage pour React Native
 
     // Réponse de succès pour la déconnexion
-    res.status(200).json({ message: 'Déconnexion réussie' });
+    return res.status(200).json({ message: 'Déconnexion réussie' });
 }
 
 const signup = async (req, res) => {
@@ -91,9 +91,9 @@ const signup = async (req, res) => {
       // Créer automatiquement un userStat 
       await UserStat.create({ wins:0, losses:0, draws:0, score:0, UserId: newUser.id });
       const token = generateToken(newUser);
-      res.status(201).json({ message: 'Utilisateur créé avec succès.', token, newUser });
+      return res.status(201).json({ message: 'Utilisateur créé avec succès.', token, newUser });
     } catch (error) {
-      res.status(500).json({ message: "Erreur lors de l'inscription." });
+      return res.status(500).json({ message: "Erreur lors de l'inscription." });
     }
   };
 
@@ -121,11 +121,11 @@ const signup = async (req, res) => {
         user.password = hashedPassword;
         await user.save();
 
-        res.status(200).json({ message: "Mot de passe mis à jour avec succès." });
+        return res.status(200).json({ message: "Mot de passe mis à jour avec succès." });
 
     } catch (error) {
         console.error("Erreur changement de mot de passe :", error);
-        res.status(500).json({ message: "Erreur serveur." });
+        return res.status(500).json({ message: "Erreur serveur." });
     }
 };
 

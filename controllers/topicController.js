@@ -1,8 +1,9 @@
-const { Topic, Category, Comment, User } = require("../db/sequelizeSetup");
+const { Topic, Category, Comment, User, UserActivity } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
 const { updateSiteStats } = require("../services/siteStatsService");
+const { updateUserStats } = require("../services/userStatsService");
 
 const ROLE_USER = 1;
 const ROLE_ADMIN = 2;
@@ -15,7 +16,7 @@ const findAllTopics = async (req, res) => {
     } 
     catch(error) 
     {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -26,11 +27,11 @@ const findTopicByPk = async (req, res) => {
         if (!result) {
             return res.json({ message: 'Topic non trouvé' })
         }
-        res.json({ data: result })
+        return res.json({ data: result })
     } 
     catch(error) 
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 }
 
@@ -46,11 +47,11 @@ const findTopicComments = async (req, res) => {
             if (!topic) {
                 return res.status(404).json({ error: 'Topic non trouvé' });
             }
-            res.json(topic.comments);
+            return res.json(topic.comments);
         } catch 
         (error) 
         {
-            errorHandler(error, res)
+             return errorHandler(error, res)
         }
   };
 
@@ -75,9 +76,6 @@ const createTopic =  async (req, res) => {
         // Créer le topic
         const result = await Topic.create({  title, content, CategoryId: categoryId, UserId: userId });
 
-         // Répondre avec le topic créé
-        res.status(201).json({message: `Topic créé`, data: result});
-
         // Enregistrer l'activité
         await UserActivity.create({
             activity_type: 'CREATE_TOPIC',
@@ -88,13 +86,16 @@ const createTopic =  async (req, res) => {
         });
 
         // Mettre à jour les statistiques de le l'utilisateur
-        await updateUserStats(req.user.id, 'CREATE_TOPIC');
+        await updateUserStats(userId, 'CREATE_TOPIC');
         // Mettre à jour les statistique du site    
         await updateSiteStats('CREATE_TOPIC');
+
+        // Répondre avec le topic créé
+        return res.status(201).json({message: `Topic créé`, data: result});
     }
     catch(error) 
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 }
 
@@ -107,11 +108,11 @@ const updateTopic = async (req, res) => {
          }
     
          await result.update(req.body);
-         res.status(201).json({ message: 'Topic modifié', data: result });
+         return res.status(201).json({ message: 'Topic modifié', data: result });
     }
     catch(error)
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
   };
   
@@ -129,7 +130,6 @@ const deleteTopic = async (req, res) => {
         }
         const topicAuthor = (await result.getUser()).username;
         await result.destroy();
-        res.status(200).json({ message: 'Topic supprimé', data: result });
 
         // Si c'est un administrateur, enregistrer l'activité
         if (userRole === 2) {
@@ -145,10 +145,12 @@ const deleteTopic = async (req, res) => {
         await updateAdminStats(req.user.id, 'DELETE_TOPIC');
         // Mettre à jour les statistique du site    
         await updateSiteStats('DELETE_TOPIC');
+
+        return res.status(200).json({ message: 'Topic supprimé', data: result });
 }
     catch(error)
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     } 
   };
 

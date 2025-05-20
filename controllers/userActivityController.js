@@ -6,7 +6,7 @@ const findAllUserActivities = async (req, res) => {
         const result = await UserActivity.findAll();
         return res.json({message: "Activités trouvées", data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -18,7 +18,7 @@ const findUserActivityById = async (req, res) => {
         }
         res.json({ message: "Activités trouvées", data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -36,7 +36,7 @@ const findUserActivityByUserId = async (req, res) => {
 
         res.json({ message: "Activités trouvées", data: activities });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 

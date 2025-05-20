@@ -16,9 +16,9 @@ const findAdminStatById = async (req, res) => {
         if (!result) {
             return res.status(404).json({ message: 'UserStat non trouvé' });
         }
-        res.json({ data: result });
+        return res.json({ data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -34,12 +34,12 @@ const createAdminStat = async (req, res) => {
                 scheduledGamesDeleted,
                 adminId,
               });
-            res.status(201).json({ message: `AdminStat créé`, data: result });
+            return res.status(201).json({ message: `AdminStat créé`, data: result });
         } else {
             return res.status(400).json({ error: 'Admin invalide' });
         }
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -51,9 +51,9 @@ const updateAdminStat = async (req, res) => {
         }
 
         await result.update(req.body);
-        res.status(200).json({ message: 'AdminStat modifié', data: result });
+        return res.status(200).json({ message: 'AdminStat modifié', data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -64,9 +64,9 @@ const deleteAdminStat = async (req, res) => {
             return res.status(404).json({ message: 'AdminStat non trouvé' });
         }
         await result.destroy();
-        res.status(200).json({ message: 'AdminStat supprimé', data: result });
+        return res.status(200).json({ message: 'AdminStat supprimé', data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 

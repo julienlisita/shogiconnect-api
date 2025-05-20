@@ -1,6 +1,5 @@
-const { Comment, Topic, User } = require("../db/sequelizeSetup");
+const { Comment, Topic, User, UserActivity, AdminActivity  } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
-const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
 const { updateUserStats } = require('../services/userStatsService');
 const { updateSiteStats } = require("../services/siteStatsService");
@@ -16,7 +15,7 @@ const findAllComments = async (req, res) => {
     } 
     catch(error) 
     {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -31,7 +30,7 @@ const findCommentByPk = async (req, res) => {
     } 
     catch(error) 
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 }
 
@@ -55,10 +54,8 @@ const createComment =  async (req, res) => {
         // Créer le commentaire
         const result = await Comment.create({ content, TopicId: topicId, UserId: userId });
 
-        // Répondre avec le commentaire créé
-        res.status(201).json({message: `Commentaire créé`, data: result});
 
-            // Enregistrer l'activité de création du commentaire
+        // Enregistrer l'activité de création du commentaire
         await UserActivity.create({
             activity_type: 'CREATE_COMMENT',
             related_id: result.id, // ID du commentaire créé
@@ -71,11 +68,14 @@ const createComment =  async (req, res) => {
         await updateUserStats(userId, 'CREATE_COMMENT');
         // Mettre à jour les statistique du site    
         await updateSiteStats('CREATE_COMMENT');
+
+        // Répondre avec le commentaire créé
+        return res.status(201).json({message: `Commentaire créé`, data: result});
    
     }
     catch(error) 
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 }
 
@@ -88,11 +88,11 @@ const updateComment = async (req, res) => {
          }
     
          await result.update(req.body);
-         res.status(201).json({ message: 'Commentaire modifié', data: result });
+         return res.status(201).json({ message: 'Commentaire modifié', data: result });
     }
     catch(error)
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
   };
   
@@ -109,9 +109,7 @@ const deleteComment = async (req, res) => {
         }
         
         const commentAuthor = (await result.getUser()).username;
-
         await result.destroy();
-        res.status(200).json({ message: 'Commentaire supprimé', data: result });
 
          // Si c'est un administrateur, enregistrer l'activité
          if (userRole === ROLE_ADMIN) {
@@ -127,10 +125,12 @@ const deleteComment = async (req, res) => {
         await updateAdminStats(req.user.id, 'DELETE_COMMENT');
         // Mettre à jour les statistique du site    
         await updateSiteStats('DELETE_COMMENT');
+
+        return res.status(200).json({ message: 'Commentaire supprimé', data: result });
     }
     catch(error)
     {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     } 
   };
 

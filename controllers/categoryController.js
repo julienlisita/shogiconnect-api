@@ -18,7 +18,7 @@ const findCategoryByPk = async (req, res) => {
         }
         res.json({ data: result })
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -40,7 +40,7 @@ const findCategoryTopics = async (req, res) => {
         } catch 
         (error) 
         {
-            errorHandler(error, res)
+            return errorHandler(error, res)
         }
   };
 

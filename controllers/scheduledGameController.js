@@ -1,6 +1,5 @@
-const { ScheduledGame, User, UserActivity } = require("../db/sequelizeSetup");
+const { ScheduledGame, User, UserActivity, AdminActivity } = require("../db/sequelizeSetup");
 const { errorHandler } = require("../errorHandler/errorHandler");
-const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService');
 const { updateSiteStats } = require("../services/siteStatsService");
 const { updateUserStats } = require("../services/userStatsService");
@@ -12,7 +11,7 @@ const findAllScheduledGames = async (req, res) => {
         const result = await ScheduledGame.findAll();
         return res.json({ data: result });
     } catch (error) {
-        errorHandler(error, res);
+         return errorHandler(error, res);
     }
 };
 
@@ -25,7 +24,7 @@ const findScheduledGameById = async (req, res) => {
         }
         res.json({ data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -50,9 +49,6 @@ const createScheduledGame = async (req, res) => {
             rendezVousAt 
         });
 
-        // Répondre avec le scheduled game créé
-        res.status(201).json({ message: 'Jeu créé', data: result });
-
         // Enregistrer l'activité de création du scheduled game
         await UserActivity.create({
             activity_type: 'CREATE_SCHEDULED_GAME',
@@ -66,8 +62,11 @@ const createScheduledGame = async (req, res) => {
         await updateUserStats(OrganizerId, 'CREATE_SCHEDULED_GAME');
         // Mettre à jour les statistique du site    
         await updateSiteStats('CREATE_SCHEDULED_GAME');
+
+        // Répondre avec le scheduled game créé
+        return res.status(201).json({ message: 'Jeu créé', data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -80,9 +79,9 @@ const updateScheduledGame = async (req, res) => {
         }
 
         await result.update(req.body);
-        res.status(200).json({ message: 'Jeu modifié', data: result });
+        return res.status(200).json({ message: 'Jeu modifié', data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -109,9 +108,7 @@ const deleteScheduledGame = async (req, res) => {
         // Récupérer le nom de l'organisateur
         const organizerName = scheduledGame.Organizer ? scheduledGame.Organizer.username : "Inconnu";
 
-
         await scheduledGame.destroy();
-        res.status(200).json({ message: 'Partie supprimée avec succès' });
 
          // Si c'est un administrateur, enregistrer l'activité
          if (userRole === ROLE_ADMIN) {
@@ -128,8 +125,10 @@ const deleteScheduledGame = async (req, res) => {
         // Mettre à jour les statistique du site    
         await updateSiteStats('DELETE_SCHEDULED_GAME');
 
+        return res.status(200).json({ message: 'Partie supprimée avec succès' });
+
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -149,9 +148,9 @@ const joinScheduledGame = async (req, res) => {
         scheduledGame.status = "reservée";
         await scheduledGame.save();
 
-        res.status(200).json({ message: 'Inscription réussie', data: scheduledGame });
+        return res.status(200).json({ message: 'Inscription réussie', data: scheduledGame });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
@@ -173,9 +172,9 @@ const unsubscribeFromScheduledGame = async (req, res) => {
         scheduledGame.status = "disponible";
         await scheduledGame.save();
 
-        res.status(200).json({ message: 'Désinscription réussie', data: scheduledGame });
+        return res.status(200).json({ message: 'Désinscription réussie', data: scheduledGame });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 

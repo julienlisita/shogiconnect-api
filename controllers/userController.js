@@ -12,7 +12,7 @@ const findAllUsers = async (req, res) => {
         const result = await User.findAll()
         return res.json({ data: result })
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -23,9 +23,9 @@ const findUserByPk = async (req, res) => {
         if (!result) {
             return res.json({ message: 'Utilisateur non trouvé' })
         }
-        res.json({ data: result })
+        return res.json({ data: result })
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -41,13 +41,13 @@ const createUser = async (req, res) => {
 
         const result = await User.create(req.body)
 
-        res.json({ message: `Utilisateur créé`, data: result })
-
         // Mettre à jour les statistique du site    
         await updateSiteStats('CREATE_USER');
 
+        return res.json({ message: `Utilisateur créé`, data: result })
+
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -69,9 +69,9 @@ const updateUser = async (req, res) => {
 
         await result.update(req.body)
 
-        res.status(201).json({ message: 'Utilisateur modifié', data: result })
+        return res.status(201).json({ message: 'Utilisateur modifié', data: result })
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -109,9 +109,9 @@ const deleteUser = async (req, res) => {
             await updateSiteStats('DELETE_USER');
         }
         
-        res.status(200).json({ message: 'Utilisateur supprimé', data: result })
+        return res.status(200).json({ message: 'Utilisateur supprimé', data: result })
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -122,9 +122,9 @@ const getProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Profil utilisateur non trouvé' });
         }
-        res.status(200).json({ message: 'Profil récupéré avec succès', data: user });
+        return res.status(200).json({ message: 'Profil récupéré avec succès', data: user });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 }
 
@@ -143,7 +143,7 @@ const updateProfile = async (req, res) => {
 
         await result.update(req.body)
 
-        res.status(201).json({ message: 'Utilisateur modifié', data: result })
+        return res.status(201).json({ message: 'Utilisateur modifié', data: result })
     } catch (error) {
         errorHandler(error, res)
     }
@@ -154,9 +154,9 @@ const deleteProfile = async (req, res) => {
     try {
         const result = await User.findByPk(req.user.id);
         await result.destroy()
-        res.status(200).json({ message: 'Profil utilisateur supprimé avec succès', data: result });
+        return res.status(200).json({ message: 'Profil utilisateur supprimé avec succès', data: result });
     } catch (error) {
-        errorHandler(error, res)
+        return errorHandler(error, res)
     }
 }
 
@@ -208,9 +208,9 @@ const updateUserRole = async (req, res) => {
         result.RoleId = req.body.RoleId;
         await result.save();
 
-        res.status(200).json({ message: "Rôle mis à jour avec succès", data: result });
+        return res.status(200).json({ message: "Rôle mis à jour avec succès", data: result });
     } catch (error) {
-        errorHandler(error, res);
+        return errorHandler(error, res);
     }
 };
 
