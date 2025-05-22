@@ -1,30 +1,32 @@
-// middlewares/uploadMiddleware.js
+// middlewares/upload.js
+
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('../utils/cloudinary');
 
-// Définir le stockage et la destination des fichiers
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null,'uploads'); // Le répertoire où les fichiers seront stockés
-    },
-    filename: (req, file, cb) => {
-        const fileExtension = path.extname(file.originalname);  // Extrait l'extension du fichier
-        const fileName = `avatar_${Date.now()}${fileExtension}`;  // Crée un nom unique pour le fichier
-        cb(null, fileName);  // Attribue le nom au fichier
-    }
-});
+const USE_CLOUDINARY = process.env.USE_CLOUDINARY === 'true';
 
-// Accepter uniquement certains types de fichiers (par exemple .jpg, .png)
+let storage;
+
+if (USE_CLOUDINARY) {
+    // Utiliser la mémoire pour envoyer les fichiers manuellement via upload_stream
+    storage = multer.memoryStorage();
+} else {
+    // Stockage local sur le disque
+    storage = multer.diskStorage({
+        destination: (req, file, cb) => cb(null, 'uploads'),
+        filename: (req, file, cb) => {
+            const ext = path.extname(file.originalname);
+            cb(null, `avatar_${Date.now()}${ext}`);
+        },
+    });
+}
+
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png'];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Type de fichier non autorisé'), false);
-    }
+    allowedTypes.includes(file.mimetype) ? cb(null, true) : cb(new Error('Type de fichier non autorisé'), false);
 };
 
-// Configuration de multer avec stockage et filtre de fichier
 const upload = multer({ storage, fileFilter });
 
 module.exports = upload;

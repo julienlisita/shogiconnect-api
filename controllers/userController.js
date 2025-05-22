@@ -4,6 +4,10 @@ const { errorHandler } = require("../errorHandler/errorHandler");
 const { AdminActivity } = require("../db/sequelizeSetup");
 const { updateAdminStats } = require('../services/adminStatsService'); 
 const { updateSiteStats } = require("../services/siteStatsService");
+const streamifier = require('streamifier');
+const cloudinary = require('../utils/cloudinary');
+const deleteFromCloudinary = require('../utils/deleteFromCloudinary');
+const multer = require('multer');
 const ROLE_ADMIN = 2;
 
 // Fonction pour récupérer la liste de tous les utilisateurs
@@ -160,39 +164,107 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-// Fonction pour gérer l'upload de l'avatar
+// Contrôleur pour mettre à jour l'avatar d'un utilisateur
 const updateAvatar = async (req, res) => {
+    console.log('Avatar request received');
+    console.log('Avatar request received from:', req.get("origin"));
+    console.log('Headers:', req.headers);
+
     try {
-        // Vérification du fichier envoyé
+        // 1. Vérification de l'utilisateur
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: 'Utilisateur non authentifié.' });
+        }
+        const userId = req.user.id;
+        console.log('User authentifié :', req.user);
+
+        // 2. Vérifier qu’un fichier a bien été envoyé
         const avatarFile = req.file;
         if (!avatarFile) {
             return res.status(400).json({ message: 'Aucun fichier image envoyé.' });
         }
+        console.log('Fichier reçu :', avatarFile.originalname, avatarFile.size, avatarFile.mimetype);
 
-        // Chemin du fichier avatar
-        const avatarPath = avatarFile.filename;
+        // 3. Savoir si on utilise Cloudinary
+        const useCloudinary = process.env.USE_CLOUDINARY === 'true';
+        console.log('Utilisation de Cloudinary :', useCloudinary);
 
-        // Récupération de l'utilisateur actuellement connecté (basé sur son ID)
-        const userId = req.user.id;
+        // 4. Vérifier que la config Cloudinary est bien présente
+        if (
+            useCloudinary &&
+            (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET)
+        ) {
+            return res.status(500).json({ message: 'Configuration Cloudinary manquante.' });
+        }
+
+        let newAvatarPath;
+
+        // 5. Upload vers Cloudinary
+        if (useCloudinary) {
+            const streamUpload = () => {
+                return new Promise((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream(
+                        {
+                            folder: 'avatars',
+                            public_id: `avatar_${Date.now()}`,
+                            format: 'png',
+                        },
+                        (error, result) => {
+                            if (result) resolve(result);
+                            else reject(error);
+                        }
+                    );
+
+                    streamifier.createReadStream(avatarFile.buffer).pipe(stream);
+                });
+            };
+
+            try {
+                const result = await streamUpload();
+                newAvatarPath = result.secure_url;
+                console.log('Upload Cloudinary réussi :', newAvatarPath);
+            } catch (cloudErr) {
+                console.error('Échec de l\'upload Cloudinary :', cloudErr);
+                return res.status(500).json({ message: 'Échec de l\'upload Cloudinary', error: cloudErr.message || cloudErr });
+            }
+        } else {
+            newAvatarPath = avatarFile.filename;
+            console.log('Avatar stocké localement :', newAvatarPath);
+        }
+
+        // 6. Récupération et mise à jour de l'utilisateur
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
         }
 
-        // Mise à jour de l'avatar dans la base de données
-        user.avatar = avatarPath;
+        // 7. Suppression de l'ancien avatar si nécessaire
+        if (useCloudinary && user.avatar && user.avatar.startsWith('http')) {
+            await deleteFromCloudinary(user.avatar);
+            console.log('Ancien avatar supprimé de Cloudinary');
+        }
+
+        user.avatar = newAvatarPath;
         await user.save();
 
-        // Réponse de succès
-        return res.status(200).json({ message: 'Avatar mis à jour avec succès.', avatar: avatarPath });
+        // 8. Succès
+        return res.status(200).json({
+            message: 'Avatar mis à jour avec succès.',
+            avatar: newAvatarPath,
+        });
+
     } catch (error) {
-        // Gestion des erreurs spécifiques à Multer (par exemple fichier trop volumineux)
+        // 9. Gestion des erreurs Multer
         if (error instanceof multer.MulterError) {
             return res.status(500).json({ message: 'Erreur d\'upload : ' + error.message });
         }
 
-        // Gestion des autres erreurs
-        return res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'avatar.', error });
+        // 10. Autres erreurs
+        console.error('Erreur updateAvatar:', error);
+        return res.status(500).json({
+            message: 'Erreur lors de la mise à jour de l\'avatar.',
+            error: error.message || error.toString(),
+        });
     }
 };
 
